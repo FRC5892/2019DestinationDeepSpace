@@ -16,6 +16,7 @@ public class RobotMap {
     /* PWM */
     public int[] intakeHatchGrabbers;
     public int[] intakeCargoGrabbers;
+    public int[] climbArms;
 
     /* DIO */
 
