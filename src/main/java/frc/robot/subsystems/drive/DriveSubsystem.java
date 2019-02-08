@@ -9,7 +9,7 @@ import frc.robot.Robot;
 
 public class DriveSubsystem extends Subsystem {
 
-    private DifferentialDrive drive;
+    private final DifferentialDrive drive;
 
     public DriveSubsystem() {
         var left = new CANSparkMax(Robot.map.driveLeft[0], MotorType.kBrushless);

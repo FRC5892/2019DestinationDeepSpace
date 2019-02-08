@@ -11,6 +11,7 @@ public class RobotMap {
     public int[] driveLeft;
     public int[] driveRight;
     public int intakeWrist;
+    public int elevatorWinch;
 
     /* PWM */
     public int[] intakeHatchGrabbers;
