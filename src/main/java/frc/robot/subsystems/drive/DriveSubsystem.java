@@ -27,7 +27,7 @@ public class DriveSubsystem extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-
+        setDefaultCommand(new JoystickDriveCommand());
     }
 
     public void arcadeDrive(double xSpeed, double zRotation) {

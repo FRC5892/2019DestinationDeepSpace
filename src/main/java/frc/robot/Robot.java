@@ -9,6 +9,8 @@ package frc.robot;
 
 import com.google.gson.Gson;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.drive.DriveSubsystem;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,6 +29,9 @@ public class Robot extends TimedRobot {
    */
 
   public static RobotMap map;
+  public static OI oi;
+
+  public static DriveSubsystem drive;
 
   @Override
   public void robotInit() {
@@ -36,6 +41,12 @@ public class Robot extends TimedRobot {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+
+    /* Subsystems */
+    drive = new DriveSubsystem();
+
+    /* OI */
+    oi = new OI();
   }
 
   @Override
@@ -44,6 +55,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    Scheduler.getInstance().run();
   }
 
   @Override
@@ -52,6 +64,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    Scheduler.getInstance().run();
   }
 
   @Override
