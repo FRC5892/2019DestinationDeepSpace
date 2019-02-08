@@ -7,7 +7,11 @@
 
 package frc.robot;
 
+import com.google.gson.Gson;
 import edu.wpi.first.wpilibj.TimedRobot;
+
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,10 +26,16 @@ public class Robot extends TimedRobot {
    * for any initialization code.
    */
 
-  public static RobotMap map = new RobotMap(true);
+  public static RobotMap map;
 
   @Override
   public void robotInit() {
+    /* RobotMap */
+    try {
+      map = new Gson().fromJson(new FileReader(RobotMap.competition), RobotMap.class);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
