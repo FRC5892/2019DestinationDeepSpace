@@ -10,6 +10,7 @@ package frc.robot;
 import com.google.gson.Gson;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.MatchTimeServer;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
@@ -53,6 +54,9 @@ public class Robot extends TimedRobot {
 
     /* OI */
     oi = new OI();
+	
+	/* MatchTimeServer */
+	new MatchTimeServer().start();
   }
 
   @Override
