@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
   public static ClimbSubsystem climb;
 
   @Override
+  @SuppressWarnings("resource")
   public void robotInit() {
     /* RobotMap */
     try {
@@ -51,12 +52,13 @@ public class Robot extends TimedRobot {
 
     /* Subsystems */
     drive = new DriveSubsystem();
+    intake = new IntakeSubsystem();
 
     /* OI */
     oi = new OI();
 	
-	/* MatchTimeServer */
-	new MatchTimeServer().start();
+  	/* MatchTimeServer */
+  	new MatchTimeServer().start();
   }
 
   @Override

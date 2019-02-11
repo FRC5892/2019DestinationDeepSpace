@@ -26,6 +26,7 @@ public class RobotMap {
         if (ports.length == 1) return first;
         var rest = new Victor[ports.length - 1];
         for (var i=1; i<ports.length; i++) {
+            @SuppressWarnings("resource")
             var vic = new Victor(Math.abs(ports[i]));
             vic.setInverted(ports[i] < 0);
             rest[i-1] = vic;
