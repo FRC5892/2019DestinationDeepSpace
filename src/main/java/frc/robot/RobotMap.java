@@ -19,6 +19,7 @@ public class RobotMap {
     public int[] climbArms;
 
     /* DIO */
+    public int intakeHatchLimitSwitch;
 
     public static SpeedController makeVictorGroup(int[] ports) {
         var first = new Victor(Math.abs(ports[0]));
