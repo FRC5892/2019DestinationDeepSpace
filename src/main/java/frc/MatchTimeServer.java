@@ -26,6 +26,7 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
             var message = new Message();
             message.matchTime = (int) DriverStation.getInstance().getMatchTime();
             message.batteryVoltage = RobotController.getBatteryVoltage();
+            message.warnings.brownedOut = RobotController.isBrownedOut();
             var msg = gson.toJson(message);
             for (var conn : getConnections()) {
                 conn.send(msg);
@@ -57,6 +58,11 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
     private class Message {
         int matchTime;
         double batteryVoltage;
+        Warnings warnings = new Warnings();
+
+        private class Warnings {
+            boolean brownedOut;
+        }
     }
 
     // this sometimes lets it free up the port when we redeploy the code.
