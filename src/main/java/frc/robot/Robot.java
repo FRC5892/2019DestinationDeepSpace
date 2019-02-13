@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
     oi = new OI();
 	
   	/* MatchTimeServer */
-  	new MatchTimeServer().start();
+  	MatchTimeServer.startStarting();
   }
 
   @Override
