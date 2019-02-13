@@ -14,11 +14,15 @@ import edu.wpi.first.wpilibj.RobotController;
 
 public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
-    public MatchTimeServer() {
+    private static Notifier starter = new Notifier(() -> {
+        new MatchTimeServer().start();
+    });
+    private Notifier pinger;
+
+    private MatchTimeServer() {
         super(new InetSocketAddress(5800)); // bluh bluh. wish it could be 5892.
         var gson = new Gson();
-        @SuppressWarnings("resource")
-        var notifier = new Notifier(() -> {
+        pinger = new Notifier(() -> {
             var message = new Message();
             message.matchTime = (int) DriverStation.getInstance().getMatchTime();
             message.batteryVoltage = RobotController.getBatteryVoltage();
@@ -27,7 +31,6 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
                 conn.send(msg);
             }
         });
-        notifier.startPeriodic(0.125);
     }
 
     @Override
@@ -41,11 +44,14 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
     @Override
     public void onError(WebSocket conn, Exception ex) {
-        DriverStation.reportWarning("Error with MatchTimeServer: " + ex.getMessage(), ex.getStackTrace());
+        DriverStation.reportWarning("Error with MatchTimeServer: " + ex.toString(), ex.getStackTrace());
     }
 
     @Override
-    public void onStart() {}
+    public void onStart() {
+        starter.close();
+        pinger.startPeriodic(0.125);
+    }
 
     @SuppressWarnings("unused")
     private class Message {
@@ -53,11 +59,18 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
         double batteryVoltage;
     }
 
+    // this sometimes lets it free up the port when we redeploy the code.
+    // other times it just. doesn't.
+    // and it's so stupid.
     @Override
     public void close() {
         try {
             stop();
         } catch (Exception e) {}
+    }
+
+    public static void startStarting() {
+        starter.startPeriodic(2);
     }
     
 }
