@@ -11,6 +11,7 @@ import org.java_websocket.server.WebSocketServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.Robot;
 
 public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
@@ -26,7 +27,11 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
             var message = new Message();
             message.matchTime = (int) DriverStation.getInstance().getMatchTime();
             message.batteryVoltage = RobotController.getBatteryVoltage();
+
+            message.infos.slowDrive = Robot.drive.manualSlow;
+
             message.warnings.brownedOut = RobotController.isBrownedOut();
+            
             var msg = gson.toJson(message);
             for (var conn : getConnections()) {
                 conn.send(msg);
@@ -58,7 +63,12 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
     private class Message {
         int matchTime;
         double batteryVoltage;
+        Infos infos = new Infos();
         Warnings warnings = new Warnings();
+
+        private class Infos {
+            boolean slowDrive;
+        }
 
         private class Warnings {
             boolean brownedOut;

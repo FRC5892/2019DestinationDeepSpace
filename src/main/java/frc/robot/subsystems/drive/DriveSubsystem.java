@@ -11,6 +11,8 @@ public class DriveSubsystem extends Subsystem {
 
     private final DifferentialDrive drive;
 
+    public boolean manualSlow = false;
+
     public DriveSubsystem() {
         var left = new CANSparkMax(Robot.map.driveLeft[0], MotorType.kBrushless);
         var right = new CANSparkMax(Robot.map.driveRight[0], MotorType.kBrushless);
