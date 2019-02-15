@@ -17,15 +17,15 @@ public class IntakeSubsystem extends Subsystem {
 
     private static final boolean TUNING_MODE = true;
 
-    private final SpeedController hatchGrabbers;
-    private final DigitalInput hatchLimitSwitch;
-    private final SpeedController cargoGrabbers;
+    private final SpeedController hatchGrabbers, cargoGrabbers;
+    private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
     private final TalonSRX wrist;
 
     public IntakeSubsystem() {
         hatchGrabbers = RobotMap.makeVictorGroup(Robot.map.intakeHatchGrabbers);
-        hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
         cargoGrabbers = RobotMap.makeVictorGroup(Robot.map.intakeCargoGrabbers);
+        hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
+        cargoLimitSwitch = new DigitalInput(Robot.map.intakeCargoLimitSwitch);
         wrist = new TalonSRX(Robot.map.intakeWrist);
         try {
             TalonUtils.readPID(wrist, "IntakeWrist", TUNING_MODE);
@@ -39,16 +39,29 @@ public class IntakeSubsystem extends Subsystem {
         setDefaultCommand(new JoystickIntakeControl());
     }
 
+    // I can do the stop on limit logic here because these have to be called every frame re: MotorSafety
     public void setHatchGrabbers(double speed) {
-        hatchGrabbers.set(speed);
+        if (!hasHatch() && !hasCargo()) {
+            hatchGrabbers.set(speed);
+        } else {
+            hatchGrabbers.stopMotor();
+        }
+    }
+
+    public void setCargoGrabbers(double speed) {
+        if (!hasHatch() && !hasCargo()) {
+            cargoGrabbers.set(speed);
+        } else {
+            cargoGrabbers.stopMotor();
+        }
     }
 
     public boolean hasHatch() {
         return hatchLimitSwitch.get();
     }
 
-    public void setCargoGrabbers(double speed) {
-        cargoGrabbers.set(speed);
+    public boolean hasCargo() {
+        return cargoLimitSwitch.get();
     }
 
     public void setWristSpeed(double speed) {

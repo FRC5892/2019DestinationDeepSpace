@@ -22,6 +22,7 @@ public class RobotMap {
 
     /* DIO */
     public int intakeHatchLimitSwitch; // maybe
+    public int intakeCargoLimitSwitch;
 
     /* Analog */
     public int pressureSensor;

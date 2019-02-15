@@ -5,6 +5,8 @@
     "intakeWrist": 1,
     "intakeHatchGrabbers": [],
     "intakeCargoGrabbers": [],
+    "intakeHatchLimitSwitch": 0,
+    "intakeCargoLimitSwitch": 1,
 
     "elevatorWinch": 2,
     "elevatorBrake": [],

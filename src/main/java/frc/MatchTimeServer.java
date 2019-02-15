@@ -30,6 +30,8 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
             message.pressureReading = Robot.pressureSensor.getValue();
 
             message.infos.slowDrive = Robot.drive.manualSlow;
+            message.infos.hasHatch = Robot.intake.hasHatch();
+            message.infos.hasCargo = Robot.intake.hasCargo();
 
             message.warnings.brownedOut = RobotController.isBrownedOut();
             
@@ -38,6 +40,26 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
                 conn.send(msg);
             }
         });
+    }
+
+    @SuppressWarnings("unused")
+    private class Message {
+        int matchTime;
+        double batteryVoltage;
+        int pressureReading;
+
+        Infos infos = new Infos();
+        Warnings warnings = new Warnings();
+
+        private class Infos {
+            boolean slowDrive;
+            boolean hasHatch;
+            boolean hasCargo;
+        }
+
+        private class Warnings {
+            boolean brownedOut;
+        }
     }
 
     @Override
@@ -58,24 +80,6 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
     public void onStart() {
         starter.close();
         pinger.startPeriodic(0.125);
-    }
-
-    @SuppressWarnings("unused")
-    private class Message {
-        int matchTime;
-        double batteryVoltage;
-        int pressureReading;
-
-        Infos infos = new Infos();
-        Warnings warnings = new Warnings();
-
-        private class Infos {
-            boolean slowDrive;
-        }
-
-        private class Warnings {
-            boolean brownedOut;
-        }
     }
 
     // this sometimes lets it free up the port when we redeploy the code.
