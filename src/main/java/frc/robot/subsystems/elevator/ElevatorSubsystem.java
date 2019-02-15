@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.DoubleSolenoidGroup;
@@ -20,6 +21,7 @@ public class ElevatorSubsystem extends Subsystem {
     private static final double BRAKE_THRESHOLD = 0; // TODO set up
 
     private final TalonSRX winch;
+    private final SpeedController winchSupport;
     private final DoubleSolenoidGroup brake;
 
     private double winchSetpoint;
@@ -31,6 +33,7 @@ public class ElevatorSubsystem extends Subsystem {
         } catch (IOException e) {
             DriverStation.reportWarning("Couldn't read PID gains for elevator winch.", e.getStackTrace());
         }
+        winchSupport = RobotMap.makeVictorGroup(Robot.map.elevatorWinchSupport);
         brake = RobotMap.makeDoubleSolenoidGroup(Robot.map.elevatorBrake);
     }
 
@@ -55,12 +58,15 @@ public class ElevatorSubsystem extends Subsystem {
 
     @Override
     public void periodic() {
-        if (!winchIsOnSetpoint()) return;
         // can't use getClosedLoopError() because it changes when we neutral the motor
-        if (Math.abs(winch.getSelectedSensorPosition() - winchSetpoint) < BRAKE_THRESHOLD) {
-            winch.neutralOutput();
-        } else {
-            winch.set(ControlMode.Position, winchSetpoint);
+        if (winchIsOnSetpoint()) {
+            if (Math.abs(winch.getSelectedSensorPosition() - winchSetpoint) < BRAKE_THRESHOLD) {
+                winch.neutralOutput();
+            } else {
+                winch.set(ControlMode.Position, winchSetpoint);
+            }
         }
+        // lol discount following
+        winchSupport.set(winch.getMotorOutputPercent());
     }
 }
