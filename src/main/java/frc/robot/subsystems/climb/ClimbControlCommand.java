@@ -1,5 +1,6 @@
 package frc.robot.subsystems.climb;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
@@ -9,9 +10,23 @@ class ClimbControlCommand extends Command {
         requires(Robot.climb);
     }
 
+    private static final double ARMS_SPEED = 1;
+
     @Override
     protected void execute() {
-        Robot.climb.setArms(0 /* TODO controller */);
+        if (Robot.oi.copilot.getPOV() == 0) {
+            Robot.climb.setArms(-ARMS_SPEED);
+        } else if (Robot.oi.copilot.getPOV() == 180) {
+            Robot.climb.setArms(ARMS_SPEED);
+        }
+
+        if (Robot.oi.copilot.getRawAxis(2) < 0.5) {
+            Robot.climb.setPistons(Value.kReverse);
+        } else if (Robot.oi.copilot.getRawAxis(2) > 0.5) {
+            Robot.climb.setPistons(Value.kForward);
+        } else {
+            Robot.climb.setPistons(Value.kOff);
+        }
     }
 
     @Override
@@ -22,5 +37,6 @@ class ClimbControlCommand extends Command {
     @Override
     protected void end() {
         Robot.climb.setArms(0);
+        Robot.climb.setPistons(Value.kOff);
     }
 }

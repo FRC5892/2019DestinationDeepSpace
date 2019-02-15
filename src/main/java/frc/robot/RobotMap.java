@@ -1,17 +1,19 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Victor;
+import frc.DoubleSolenoidGroup;
 
 public class RobotMap {
     public static final String competition = "/home/lvuser/deploy/RobotMap/competition.json";
 
     /* CAN */
-    public int[] driveLeft;
-    public int[] driveRight;
-    public int intakeWrist;
-    public int elevatorWinch;
+    public int[] driveLeft;   // SPARK MAX
+    public int[] driveRight;  // SPARK MAX
+    public int intakeWrist;   // Talon SRX
+    public int elevatorWinch; // Talon SRX
 
     /* PWM */
     public int[] intakeHatchGrabbers;
@@ -20,6 +22,10 @@ public class RobotMap {
 
     /* DIO */
     public int intakeHatchLimitSwitch;
+
+    /* Solenoids */
+    public int[][] climbPistons;
+    public int[][] elevatorBrake;
 
     public static SpeedController makeVictorGroup(int[] ports) {
         var first = new Victor(Math.abs(ports[0]));
@@ -33,5 +39,13 @@ public class RobotMap {
             rest[i-1] = vic;
         }
         return new SpeedControllerGroup(first, rest);
+    }
+
+    public static DoubleSolenoidGroup makeDoubleSolenoidGroup(int[][] ports) {
+        var arr = new DoubleSolenoid[ports.length];
+        for (var i=0; i<ports.length; i++) {
+            arr[i] = new DoubleSolenoid(ports[i][0], ports[i][1]);
+        }
+        return new DoubleSolenoidGroup(arr);
     }
 }
