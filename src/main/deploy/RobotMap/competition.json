@@ -10,5 +10,7 @@
     "elevatorBrake": [],
 
     "climbArms": [],
-    "climbPistons": [[0, 1], [6, 7]]
+    "climbPistons": [[0, 1], [6, 7]],
+
+    "pressureSensor": 0
 }

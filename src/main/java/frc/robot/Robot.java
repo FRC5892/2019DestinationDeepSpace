@@ -8,6 +8,8 @@
 package frc.robot;
 
 import com.google.gson.Gson;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.MatchTimeServer;
@@ -40,6 +42,9 @@ public class Robot extends TimedRobot {
   public static ElevatorSubsystem elevator;
   public static ClimbSubsystem climb;
 
+  // when testing on Arduino, 0psi -> 100 and 120psi -> 800
+  public static AnalogInput pressureSensor;
+
   @Override
   @SuppressWarnings("resource")
   public void robotInit() {
@@ -56,6 +61,9 @@ public class Robot extends TimedRobot {
 
     /* OI */
     oi = new OI();
+
+    /* Miscellaneous Sensors */
+    pressureSensor = new AnalogInput(map.pressureSensor);
 	
   	/* MatchTimeServer */
   	MatchTimeServer.startStarting();

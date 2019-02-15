@@ -27,6 +27,7 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
             var message = new Message();
             message.matchTime = (int) DriverStation.getInstance().getMatchTime();
             message.batteryVoltage = RobotController.getBatteryVoltage();
+            message.pressureReading = Robot.pressureSensor.getValue();
 
             message.infos.slowDrive = Robot.drive.manualSlow;
 
@@ -63,6 +64,8 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
     private class Message {
         int matchTime;
         double batteryVoltage;
+        int pressureReading;
+
         Infos infos = new Infos();
         Warnings warnings = new Warnings();
 
