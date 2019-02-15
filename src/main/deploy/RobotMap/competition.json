@@ -1,4 +1,14 @@
 {
     "driveLeft": [1, 2, 3],
-    "driveRight": [4, 5, 6]
+    "driveRight": [4, 5, 6],
+
+    "intakeWrist": 1,
+    "intakeHatchGrabbers": [],
+    "intakeCargoGrabbers": [],
+
+    "elevatorWinch": 2,
+    "elevatorBrake": [],
+
+    "climbArms": [],
+    "climbPistons": [[0, 1], [6, 7]]
 }

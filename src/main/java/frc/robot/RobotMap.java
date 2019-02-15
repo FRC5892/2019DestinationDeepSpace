@@ -21,7 +21,7 @@ public class RobotMap {
     public int[] climbArms;
 
     /* DIO */
-    public int intakeHatchLimitSwitch;
+    public int intakeHatchLimitSwitch; // maybe
 
     /* Solenoids */
     public int[][] climbPistons;
