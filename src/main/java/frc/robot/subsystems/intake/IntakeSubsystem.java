@@ -22,8 +22,6 @@ public class IntakeSubsystem extends Subsystem {
     private final SpeedController cargoGrabbers;
     private final TalonSRX wrist;
 
-    private boolean wristOnSetpoint = false;
-
     public IntakeSubsystem() {
         hatchGrabbers = RobotMap.makeVictorGroup(Robot.map.intakeHatchGrabbers);
         hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
@@ -55,15 +53,13 @@ public class IntakeSubsystem extends Subsystem {
 
     public void setWristSpeed(double speed) {
         wrist.set(ControlMode.PercentOutput, speed);
-        wristOnSetpoint = false;
     }
 
     public void setWristSetpoint(double target) {
         wrist.set(ControlMode.Position, target);
-        wristOnSetpoint = true;
     }
 
     public boolean wristIsOnSetpoint() {
-        return wristOnSetpoint;
+        return wrist.getControlMode() == ControlMode.Position;
     }
 }

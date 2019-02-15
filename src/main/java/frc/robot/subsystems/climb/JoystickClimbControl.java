@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-class ClimbControlCommand extends Command {
+class JoystickClimbControl extends Command {
 
-    ClimbControlCommand() {
+    JoystickClimbControl() {
         requires(Robot.climb);
     }
 

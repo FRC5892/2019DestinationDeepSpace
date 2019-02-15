@@ -19,7 +19,7 @@ public class ClimbSubsystem extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new ClimbControlCommand());
+        setDefaultCommand(new JoystickClimbControl());
     }
 
     public void setArms(double speed) {
