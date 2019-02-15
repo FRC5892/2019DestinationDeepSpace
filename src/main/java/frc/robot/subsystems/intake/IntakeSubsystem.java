@@ -17,14 +17,12 @@ public class IntakeSubsystem extends Subsystem {
 
     private static final boolean TUNING_MODE = true;
 
-    private static final double HATCH_GRABBER_SPEED = 1;
-
     private final SpeedController hatchGrabbers;
     private final DigitalInput hatchLimitSwitch;
     private final SpeedController cargoGrabbers;
     private final TalonSRX wrist;
 
-    private int hatchDirection = 0;
+    private boolean wristOnSetpoint = false;
 
     public IntakeSubsystem() {
         hatchGrabbers = RobotMap.makeVictorGroup(Robot.map.intakeHatchGrabbers);
@@ -40,40 +38,32 @@ public class IntakeSubsystem extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
+        setDefaultCommand(new JoystickIntakeControl());
     }
 
-    public void resetState() {
-        hatchDirection = 0;
+    public void setHatchGrabbers(double speed) {
+        hatchGrabbers.set(speed);
     }
 
-    public void setHatchDirection(int dir) {
-        hatchDirection = (dir > 0) ? 1 : ((dir < 0) ? -1 : 0);
+    public boolean hasHatch() {
+        return hatchLimitSwitch.get();
     }
 
     public void setCargoGrabbers(double speed) {
         cargoGrabbers.set(speed);
     }
 
-    public void setWristSetpoint(double target) {
-        wrist.set(ControlMode.Position, target);
+    public void setWristSpeed(double speed) {
+        wrist.set(ControlMode.PercentOutput, speed);
+        wristOnSetpoint = false;
     }
 
-    @Override
-    public void periodic() {
-        switch (hatchDirection) {
-            case 0:
-                hatchGrabbers.stopMotor();
-                break;
-            case 1:
-                if (hatchLimitSwitch.get()) {
-                    hatchGrabbers.stopMotor();
-                } else {
-                    hatchGrabbers.set(HATCH_GRABBER_SPEED);
-                }
-                break;
-            case -1:
-                hatchGrabbers.set(-HATCH_GRABBER_SPEED);
-                break;
-        }
+    public void setWristSetpoint(double target) {
+        wrist.set(ControlMode.Position, target);
+        wristOnSetpoint = true;
+    }
+
+    public boolean wristIsOnSetpoint() {
+        return wristOnSetpoint;
     }
 }
