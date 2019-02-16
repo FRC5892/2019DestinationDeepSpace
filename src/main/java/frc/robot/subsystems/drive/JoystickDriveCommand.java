@@ -9,6 +9,7 @@ class JoystickDriveCommand extends Command {
         requires(Robot.drive);
     }
 
+    private static final double NORMAL_FACTOR = 0.8;
     private static final double SLOW_FACTOR = 0.5;
     private boolean toggleLastFrame = false;
 
@@ -20,7 +21,7 @@ class JoystickDriveCommand extends Command {
         } else if (!Robot.oi.pilot.getRawButton(2)) {
             toggleLastFrame = false;
         }
-        var factor = Robot.drive.manualSlow ? SLOW_FACTOR : 1;
+        var factor = Robot.drive.manualSlow ? SLOW_FACTOR : NORMAL_FACTOR;
         Robot.drive.arcadeDrive(-Robot.oi.pilot.getRawAxis(1) * factor, Robot.oi.pilot.getRawAxis(4) * factor);
     }
 

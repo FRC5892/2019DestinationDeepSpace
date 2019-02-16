@@ -34,7 +34,8 @@ public class TalonUtils {
     @SuppressWarnings("resource")
     private static void makeShuffleboardTab(TalonSRX talon, String name, double kP, double kI, double kD) {
         var tab = Shuffleboard.getTab(name);
-        tab.add("kP", kP).withPosition(0, 0).getEntry().addListener((evt) -> {
+        tab.add("kP", kP
+        ).withPosition(0, 0).getEntry().addListener((evt) -> {
             talon.config_kP(0, evt.value.getDouble());
         }, EntryListenerFlags.kUpdate);
         tab.add("kI", kI).withPosition(0, 1).getEntry().addListener((evt) -> {
@@ -48,7 +49,7 @@ public class TalonUtils {
         var outputEntry = tab.add("Output", 0).withPosition(1, 2).getEntry();
         new Notifier(() -> {
             var error = talon.getClosedLoopError();
-            inputEntry.setDouble(error + talon.getClosedLoopTarget()); // have to do like this bcuz it could be position or velocity
+            inputEntry.setDouble(talon.getSelectedSensorPosition()); // have to do like this bcuz it could be position or velocity
             errorEntry.setDouble(error);
             outputEntry.setDouble(talon.getMotorOutputPercent());
         }).startPeriodic(1.0 / 20);

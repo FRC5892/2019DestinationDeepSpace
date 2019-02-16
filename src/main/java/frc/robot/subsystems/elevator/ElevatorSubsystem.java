@@ -43,7 +43,7 @@ public class ElevatorSubsystem extends Subsystem {
     }
 
     public void setWinchSpeed(double speed) {
-        winch.set(ControlMode.PercentOutput, speed);
+        winch.set(ControlMode.PercentOutput, -speed);
         brake.set((speed == 0) ? Value.kForward : Value.kReverse);
     }
 

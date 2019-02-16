@@ -9,7 +9,7 @@ class DirectElevatorControl extends Command {
         requires(Robot.elevator);
     }
 
-    private static final double WINCH_SPEED_UP = 0.7;
+    private static final double WINCH_SPEED_UP = 1;
     private static final double WINCH_SPEED_DOWN = -0.2;
 
     @Override

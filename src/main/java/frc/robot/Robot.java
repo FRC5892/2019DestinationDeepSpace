@@ -58,6 +58,8 @@ public class Robot extends TimedRobot {
     /* Subsystems */
     drive = new DriveSubsystem();
     intake = new IntakeSubsystem();
+    elevator = new ElevatorSubsystem();
+    climb = new ClimbSubsystem();
 
     /* OI */
     oi = new OI();

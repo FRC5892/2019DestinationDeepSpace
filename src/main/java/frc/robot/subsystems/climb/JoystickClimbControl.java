@@ -14,6 +14,12 @@ class JoystickClimbControl extends Command {
 
     @Override
     protected void execute() {
+        if (Robot.oi.copilot.getButtonCount() == 0) {
+            Robot.climb.setArms(0);
+            Robot.climb.setPistons(Value.kReverse);
+            return;
+        }
+
         if (Robot.oi.copilot.getPOV() == 0) {
             Robot.climb.setArms(-ARMS_SPEED);
         } else if (Robot.oi.copilot.getPOV() == 180) {

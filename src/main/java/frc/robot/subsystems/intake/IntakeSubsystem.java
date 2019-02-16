@@ -15,7 +15,9 @@ import frc.robot.RobotMap;
 
 public class IntakeSubsystem extends Subsystem {
 
-    private static final boolean TUNING_MODE = true;
+    private static final boolean TUNING_MODE = false;
+    public static final double UP_SETPOINT = 0;
+    public static final double DOWN_SETPOINT = 340000;
 
     private final SpeedController hatchGrabbers, cargoGrabbers;
     private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
@@ -27,6 +29,7 @@ public class IntakeSubsystem extends Subsystem {
         hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
         cargoLimitSwitch = new DigitalInput(Robot.map.intakeCargoLimitSwitch);
         wrist = new TalonSRX(Robot.map.intakeWrist);
+        wrist.setSensorPhase(true); // god that method is horribly named.
         try {
             TalonUtils.readPID(wrist, "IntakeWrist", TUNING_MODE);
         } catch (IOException e) {
@@ -57,11 +60,13 @@ public class IntakeSubsystem extends Subsystem {
     }
 
     public boolean hasHatch() {
-        return hatchLimitSwitch.get();
+        //return hatchLimitSwitch.get();
+        return false;
     }
 
     public boolean hasCargo() {
-        return cargoLimitSwitch.get();
+        //return cargoLimitSwitch.get();
+        return false;
     }
 
     public void setWristSpeed(double speed) {
@@ -70,6 +75,10 @@ public class IntakeSubsystem extends Subsystem {
 
     public void setWristSetpoint(double target) {
         wrist.set(ControlMode.Position, target);
+    }
+
+    public void resetWristSensor() {
+        wrist.setSelectedSensorPosition(0);
     }
 
     public boolean wristIsOnSetpoint() {
