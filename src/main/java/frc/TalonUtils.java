@@ -49,7 +49,7 @@ public class TalonUtils {
         var outputEntry = tab.add("Output", 0).withPosition(1, 2).getEntry();
         new Notifier(() -> {
             var error = talon.getClosedLoopError();
-            inputEntry.setDouble(talon.getSelectedSensorPosition()); // have to do like this bcuz it could be position or velocity
+            inputEntry.setDouble(talon.getSelectedSensorPosition());
             errorEntry.setDouble(error);
             outputEntry.setDouble(talon.getMotorOutputPercent());
         }).startPeriodic(1.0 / 20);

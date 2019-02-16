@@ -13,7 +13,6 @@ public class DriveSubsystem extends Subsystem {
 
     private final DifferentialDrive drive;
     private final CANEncoder leftEncoder, rightEncoder;
-    private double leftEncoderOffset = 0, rightEncoderOffset = 0;
 
     public boolean manualSlow = false;
 
@@ -35,7 +34,9 @@ public class DriveSubsystem extends Subsystem {
 
     private static CANSparkMax config(CANSparkMax spark) {
         spark.setIdleMode(IdleMode.kBrake);
-        spark.setRampRate(0.5); // TODO change to setOpenLoopRampRate after lib update
+        spark.setOpenLoopRampRate(0.5);
+        spark.getEncoder().setPositionConversionFactor(1 / 12.45);
+        //spark.setSmartCurrentLimit(40);
         //spark.burnFlash();
         return spark;
     }
@@ -54,20 +55,19 @@ public class DriveSubsystem extends Subsystem {
     }
 
     public double getLeftEncoder() {
-        return leftEncoder.getPosition() - leftEncoderOffset;
+        return leftEncoder.getPosition();
     }
 
     public double getRightEncoder() {
-        return rightEncoder.getPosition() - rightEncoderOffset;
+        return rightEncoder.getPosition();
     }
 
     public void resetEncoders() {
-        leftEncoderOffset = getLeftEncoder();
-        rightEncoderOffset = getRightEncoder();
+        leftEncoder.setPosition(0);
+        rightEncoder.setPosition(0);
     }
 
     public void stop() {
         drive.stopMotor();
     }
-
 }

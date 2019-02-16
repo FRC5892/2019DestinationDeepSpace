@@ -31,6 +31,8 @@ class JoystickIntakeControl extends Command {
             Robot.intake.setWristSetpoint(IntakeSubsystem.UP_SETPOINT); // starting position
         } else if (Robot.oi.pilot.getPOV() == 180) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.DOWN_SETPOINT); // "acquisition position"
+        } else if (Robot.oi.pilot.getPOV() == 270) {
+            Robot.intake.setWristSetpoint(IntakeSubsystem.MID_SETPOINT); // loading station position
         } else if (!Robot.intake.wristIsOnSetpoint()) {
             Robot.intake.setWristSpeed(0);
         }

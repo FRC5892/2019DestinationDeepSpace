@@ -15,9 +15,10 @@ import frc.robot.RobotMap;
 
 public class IntakeSubsystem extends Subsystem {
 
-    private static final boolean TUNING_MODE = false;
+    private static final boolean TUNING_MODE = true;
     public static final double UP_SETPOINT = 0;
-    public static final double DOWN_SETPOINT = 340000;
+    public static final double MID_SETPOINT = 265000;
+    public static final double DOWN_SETPOINT = 330000;
 
     private final SpeedController hatchGrabbers, cargoGrabbers;
     private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
