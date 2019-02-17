@@ -14,11 +14,12 @@ class DirectElevatorControl extends Command {
 
     @Override
     protected void execute() {
-        if (Robot.oi.copilot.getRawButton(1)) {
-            Robot.elevator.setWinchSpeed(WINCH_SPEED_UP);
-        } else if (Robot.oi.copilot.getRawButton(2)) {
-            Robot.elevator.setWinchSpeed(WINCH_SPEED_DOWN);
-        } else {
+        var input = -Robot.oi.copilot.getRawAxis(1);
+        if (input > 0.15) {
+            Robot.elevator.setWinchSpeed(WINCH_SPEED_UP * input);
+        } else if (input < -0.15) {
+            Robot.elevator.setWinchSpeed(WINCH_SPEED_DOWN * input);
+        } else if (!Robot.elevator.winchIsOnSetpoint()) {
             Robot.elevator.setWinchSpeed(0);
         }
     }

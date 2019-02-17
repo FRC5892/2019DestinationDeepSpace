@@ -10,28 +10,16 @@ class JoystickClimbControl extends Command {
         requires(Robot.climb);
     }
 
-    private static final double ARMS_SPEED = 1;
-
     @Override
     protected void execute() {
-        if (Robot.oi.copilot.getButtonCount() == 0) {
-            Robot.climb.setArms(0);
-            Robot.climb.setPistons(Value.kReverse);
-            return;
-        }
-
-        if (Robot.oi.copilot.getPOV() == 0) {
-            Robot.climb.setArms(-ARMS_SPEED);
-        } else if (Robot.oi.copilot.getPOV() == 180) {
-            Robot.climb.setArms(ARMS_SPEED);
-        }
-
-        if (Robot.oi.copilot.getRawAxis(2) < 0.5) {
-            Robot.climb.setPistons(Value.kReverse);
-        } else if (Robot.oi.copilot.getRawAxis(2) > 0.5) {
-            Robot.climb.setPistons(Value.kForward);
-        } else {
-            Robot.climb.setPistons(Value.kOff);
+        Robot.climb.setArms(Robot.oi.copilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(2));
+        switch (Robot.oi.copilot.getPOV()) {
+            case 0:
+                Robot.climb.setPistons(Value.kReverse);
+                break;
+            case 180:
+                Robot.climb.setPistons(Value.kForward);
+                break;
         }
     }
 
