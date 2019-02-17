@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import com.google.gson.Gson;
 
 import org.java_websocket.WebSocket;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
@@ -37,7 +38,9 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
             
             var msg = gson.toJson(message);
             for (var conn : getConnections()) {
-                conn.send(msg);
+                try {
+                    conn.send(msg);
+                } catch (WebsocketNotConnectedException e) {}
             }
         });
     }
