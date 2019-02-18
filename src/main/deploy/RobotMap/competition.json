@@ -9,8 +9,10 @@
     "intakeCargoLimitSwitch": 1,
 
     "elevatorWinch": 2,
-    "elevatorWinchSupport": [-6],
-    "elevatorBrake": [],
+    "elevatorWinchSupport": [7],
+    "elevatorBrake": [[5, 4]],
+    "elevatorTopLimitSwitch": 2,
+    "elevatorBottomLimitSwitch": 3,
 
     "climbArms": [1, 5],
     "climbPistons": [[0, 1], [6, 7]],

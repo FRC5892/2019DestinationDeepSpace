@@ -10,7 +10,9 @@ package frc.robot;
 import com.google.gson.Gson;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.MatchTimeServer;
 import frc.robot.subsystems.climb.ClimbSubsystem;
@@ -42,8 +44,9 @@ public class Robot extends TimedRobot {
   public static ElevatorSubsystem elevator;
   public static ClimbSubsystem climb;
 
-  // when testing on Arduino, 0psi -> 100 and 120psi -> 800
+  // 0psi -> 400 and 120psi -> 3200
   public static AnalogInput pressureSensor;
+  public static SerialPort serial;
 
   @Override
   @SuppressWarnings("resource")
@@ -64,11 +67,35 @@ public class Robot extends TimedRobot {
     /* OI */
     oi = new OI();
 
-    /* Miscellaneous Sensors */
+    /* Miscellaneous I/O */
     pressureSensor = new AnalogInput(map.pressureSensor);
+    //serial = new SerialPort(9600, Port.kUSB);
 	
   	/* MatchTimeServer */
-  	MatchTimeServer.startStarting();
+    MatchTimeServer.startStarting();
+  }
+
+  private static final byte[] GREEN = {0};
+  private static final byte[] RED = {1};
+  private static final byte[] BLUE = {2};
+  private static final byte[] ORANGE = {3};
+  @Override
+  public void disabledPeriodic() {
+    /*if (m_ds.isFMSAttached()) {
+      switch (m_ds.getAlliance()) {
+        case Red:
+          serial.write(RED, 1);
+          break;
+        case Blue:
+          serial.write(BLUE, 1);
+          break;
+        case Invalid:
+          serial.write(ORANGE, 1);
+          break;
+      }
+    } else {
+      serial.write(ORANGE, 1);
+    }*/
   }
 
   @Override
@@ -77,7 +104,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
+    teleopPeriodic();
   }
 
   @Override
@@ -87,6 +114,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    //serial.write(GREEN, 1);
   }
 
   @Override

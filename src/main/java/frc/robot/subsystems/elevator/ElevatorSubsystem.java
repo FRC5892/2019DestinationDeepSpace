@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -23,6 +24,7 @@ public class ElevatorSubsystem extends Subsystem {
     private final TalonSRX winch;
     private final SpeedController winchSupport;
     private final DoubleSolenoidGroup brake;
+    private final DigitalInput topLimitSwitch, bottomLimitSwitch;
 
     private double winchSetpoint;
 
@@ -35,6 +37,8 @@ public class ElevatorSubsystem extends Subsystem {
         }
         winchSupport = RobotMap.makeVictorGroup(Robot.map.elevatorWinchSupport);
         brake = RobotMap.makeDoubleSolenoidGroup(Robot.map.elevatorBrake);
+        topLimitSwitch = new DigitalInput(Robot.map.elevatorTopLimitSwitch);
+        bottomLimitSwitch = new DigitalInput(Robot.map.elevatorBottomLimitSwitch);
     }
 
     @Override
@@ -43,7 +47,12 @@ public class ElevatorSubsystem extends Subsystem {
     }
 
     public void setWinchSpeed(double speed) {
-        winch.set(ControlMode.PercentOutput, -speed);
+        if (speed > 0 && topLimitSwitchTriggered()) {
+            winch.set(ControlMode.PercentOutput, 0);
+            brake.set(Value.kReverse);
+            return;
+        }
+        winch.set(ControlMode.PercentOutput, speed);
         brake.set((speed == 0) ? Value.kForward : Value.kReverse);
     }
 
@@ -56,14 +65,24 @@ public class ElevatorSubsystem extends Subsystem {
         return winch.getControlMode() != ControlMode.PercentOutput;
     }
 
+    public boolean topLimitSwitchTriggered() {
+        return !topLimitSwitch.get();
+    }
+
+    public boolean bottomLimitSwitchTriggered() {
+        return bottomLimitSwitch.get();
+    }
+
     @Override
     public void periodic() {
         // can't use getClosedLoopError() because it changes when we neutral the motor
         if (winchIsOnSetpoint()) {
             if (Math.abs(winch.getSelectedSensorPosition() - winchSetpoint) < BRAKE_THRESHOLD) {
                 winch.neutralOutput();
+                brake.set(Value.kForward);
             } else {
                 winch.set(ControlMode.Position, winchSetpoint);
+                brake.set(Value.kReverse);
             }
         }
         // lol discount following
