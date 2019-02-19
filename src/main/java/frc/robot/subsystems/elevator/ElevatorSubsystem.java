@@ -17,9 +17,13 @@ import frc.robot.RobotMap;
 
 public class ElevatorSubsystem extends Subsystem {
 
-    private static final boolean TUNING_MODE = false;
+    private static final boolean TUNING_MODE = true;
 
-    private static final double BRAKE_THRESHOLD = 0; // TODO set up
+    private static final double BRAKE_THRESHOLD = 110; // TODO set up
+
+    public static final double BOTTOM = 0;
+    public static final double HATCH_2 = -20000;
+    public static final double HATCH_3 = -38000;
 
     private final TalonSRX winch;
     private final SpeedController winchSupport;
@@ -30,6 +34,7 @@ public class ElevatorSubsystem extends Subsystem {
 
     public ElevatorSubsystem() {
         winch = new TalonSRX(Robot.map.elevatorWinch);
+        winch.setSensorPhase(true);
         try {
             TalonUtils.readPID(winch, "ElevatorWinch", TUNING_MODE);
         } catch (IOException e) {
@@ -63,6 +68,10 @@ public class ElevatorSubsystem extends Subsystem {
 
     public boolean winchIsOnSetpoint() {
         return winch.getControlMode() != ControlMode.PercentOutput;
+    }
+
+    public void resetEncoder() {
+        winch.setSelectedSensorPosition(0);
     }
 
     public boolean topLimitSwitchTriggered() {

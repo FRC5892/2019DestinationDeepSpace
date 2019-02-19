@@ -69,10 +69,16 @@ public class Robot extends TimedRobot {
 
     /* Miscellaneous I/O */
     pressureSensor = new AnalogInput(map.pressureSensor);
-    //serial = new SerialPort(9600, Port.kUSB);
+    serial = new SerialPort(9600, Port.kUSB1);
 	
   	/* MatchTimeServer */
     MatchTimeServer.startStarting();
+  }
+
+  @Override
+  public void disabledInit() {
+    intake.setWristSpeed(0);
+    elevator.setWinchSpeed(0);
   }
 
   private static final byte[] GREEN = {0};
@@ -81,7 +87,7 @@ public class Robot extends TimedRobot {
   private static final byte[] ORANGE = {3};
   @Override
   public void disabledPeriodic() {
-    /*if (m_ds.isFMSAttached()) {
+    if (m_ds.isFMSAttached()) {
       switch (m_ds.getAlliance()) {
         case Red:
           serial.write(RED, 1);
@@ -95,7 +101,7 @@ public class Robot extends TimedRobot {
       }
     } else {
       serial.write(ORANGE, 1);
-    }*/
+    }
   }
 
   @Override
@@ -114,7 +120,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    //serial.write(GREEN, 1);
+    serial.write(GREEN, 1);
   }
 
   @Override
