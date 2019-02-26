@@ -12,5 +12,6 @@ public class OI {
     public OI() {
         new JoystickButton(pilot, 9).whenActive(new AcquireHatchMacro());
         new JoystickButton(pilot, 10).whenActive(new ScoreHatchMacro());
+        new JoystickButton(copilot, 5).whileActive(new AlignWithVisionTargets(-1, -1));
     }
 }

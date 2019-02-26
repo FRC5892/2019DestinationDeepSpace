@@ -10,7 +10,7 @@ class DirectElevatorControl extends Command {
     }
 
     private static final double WINCH_SPEED_UP = 1;
-    private static final double WINCH_SPEED_DOWN = 1;
+    private static final double WINCH_SPEED_DOWN = 0.3;
 
     @Override
     protected void execute() {
