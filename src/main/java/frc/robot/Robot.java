@@ -87,7 +87,7 @@ public class Robot extends TimedRobot {
     if (serial == null) {
       try {
       serial = new SerialPort(9600, Port.kUSB1);
-      } catch (UncleanStatusException e) {}
+      } catch (UncleanStatusException ignore) {}
     } else {
       try {
       if (DriverStation.getInstance().isEnabled()) {
@@ -109,7 +109,7 @@ public class Robot extends TimedRobot {
           serial.write(ORANGE, 1);
         }
       }
-    } catch (UncleanStatusException e) {}
+    } catch (UncleanStatusException ignore) {}
     }
   }
 
