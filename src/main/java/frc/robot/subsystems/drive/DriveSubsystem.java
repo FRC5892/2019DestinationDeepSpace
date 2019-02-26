@@ -4,7 +4,6 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Robot;
@@ -23,11 +22,11 @@ public class DriveSubsystem extends Subsystem {
         leftEncoder = left.getEncoder();
         rightEncoder = right.getEncoder();
 
-        for (var i=1; i<Robot.map.driveLeft.length; i++) {
+        for (var i = 1; i < Robot.map.driveLeft.length; i++) {
             config(new CANSparkMax(Robot.map.driveLeft[i], MotorType.kBrushless)).follow(left);
         }
 
-        for (var i=1; i<Robot.map.driveRight.length; i++) {
+        for (var i = 1; i < Robot.map.driveRight.length; i++) {
             config(new CANSparkMax(Robot.map.driveRight[i], MotorType.kBrushless)).follow(right);
         }
     }

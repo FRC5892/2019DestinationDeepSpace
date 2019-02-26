@@ -18,75 +18,75 @@ import frc.robot.Robot;
  */
 public class AlignWithVisionTargets extends Command {
 
-  private static final boolean DEBUG_MODE = false;
+    private static final boolean DEBUG_MODE = false;
 
-  private static NetworkTableEntry xCenter, size, visible; //, xCenterRight, sizeRight, visibleRight;
+    private static NetworkTableEntry xCenter, size, visible; //, xCenterRight, sizeRight, visibleRight;
 
-  private final double turnTolerance, moveTolerance;
+    private final double turnTolerance, moveTolerance;
 
-  private final VisionTurnController turnController = new VisionTurnController();
-  private final VisionMoveController moveController = new VisionMoveController();
+    private final VisionTurnController turnController = new VisionTurnController();
+    private final VisionMoveController moveController = new VisionMoveController();
 
-  public AlignWithVisionTargets(double turnTolerance, double moveTolerance) {
-    requires(Robot.drive);
-    this.turnTolerance = turnTolerance;
-    this.moveTolerance = moveTolerance;
+    public AlignWithVisionTargets(double turnTolerance, double moveTolerance) {
+        requires(Robot.drive);
+        this.turnTolerance = turnTolerance;
+        this.moveTolerance = moveTolerance;
 
-    if (xCenter == null) {
-        var table = NetworkTableInstance.getDefault().getTable("Vision");
-        xCenter = table.getEntry("xCenter");
-        size = table.getEntry("size");
-        visible = table.getEntry("visible");
+        if (xCenter == null) {
+            var table = NetworkTableInstance.getDefault().getTable("Vision");
+            xCenter = table.getEntry("xCenter");
+            size = table.getEntry("size");
+            visible = table.getEntry("visible");
+        }
     }
-  }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    moveController.enable();
-    turnController.enable();
-  }
-
-  @Override
-  protected void execute() {
-      
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return moveTolerance >= 0 && Math.abs(moveController.getError()) <= moveTolerance && 
-           turnTolerance >= 0 && Math.abs(turnController.getError()) <= turnTolerance;
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-      moveController.disable();
-      turnController.disable();
-      Robot.drive.stop();
-  }
-
-  double move;
-  double turn;
-
-  void setMove(double move) {
-      this.move = move;
-      Robot.drive.arcadeDrive(move, turn);
-  }
-
-  void setTurn(double turn) {
-      this.turn = turn;
-      Robot.drive.arcadeDrive(move, turn);
-  }
-
-  private class VisionMoveController extends HEROicPIDController {
-
-    VisionMoveController() {
-        super(DEBUG_MODE);
-        setSetpoint(34000); // FIXME THE CAMERA IS SIDEWAYS IT WILL PROBABLY BE DIFFERENT
-        setOutputLimits(0.75);
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() {
+        moveController.enable();
+        turnController.enable();
     }
+
+    @Override
+    protected void execute() {
+
+    }
+
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    protected boolean isFinished() {
+        return moveTolerance >= 0 && Math.abs(moveController.getError()) <= moveTolerance &&
+                turnTolerance >= 0 && Math.abs(turnController.getError()) <= turnTolerance;
+    }
+
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+        moveController.disable();
+        turnController.disable();
+        Robot.drive.stop();
+    }
+
+    double move;
+    double turn;
+
+    void setMove(double move) {
+        this.move = move;
+        Robot.drive.arcadeDrive(move, turn);
+    }
+
+    void setTurn(double turn) {
+        this.turn = turn;
+        Robot.drive.arcadeDrive(move, turn);
+    }
+
+    private class VisionMoveController extends HEROicPIDController {
+
+        VisionMoveController() {
+            super(DEBUG_MODE);
+            setSetpoint(34000); // FIXME THE CAMERA IS SIDEWAYS IT WILL PROBABLY BE DIFFERENT
+            setOutputLimits(0.75);
+        }
 
         @Override
         public double getPIDInput(ComputationSkipper skipper) {
@@ -107,15 +107,15 @@ public class AlignWithVisionTargets extends Command {
             setMove(-0.35);
         }
 
-  }
-
-  private class VisionTurnController extends HEROicPIDController {
-
-    VisionTurnController() {
-        super(DEBUG_MODE);
-        setSetpoint(120); // FIXME THE CAMERA IS SIDEWAYS IT SHOULD BE 160
-        setOutputLimits(0.75);
     }
+
+    private class VisionTurnController extends HEROicPIDController {
+
+        VisionTurnController() {
+            super(DEBUG_MODE);
+            setSetpoint(120); // FIXME THE CAMERA IS SIDEWAYS IT SHOULD BE 160
+            setOutputLimits(0.75);
+        }
 
         @Override
         public double getPIDInput(ComputationSkipper skipper) {
@@ -137,5 +137,5 @@ public class AlignWithVisionTargets extends Command {
         public void onSkipComputation() {
             setTurn(0);
         }
-  }
+    }
 }

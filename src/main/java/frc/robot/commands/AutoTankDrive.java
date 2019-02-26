@@ -29,7 +29,7 @@ public class AutoTankDrive extends Command {
         // but with the brushless motors, we're fried if the encoder fails anyway
         // /shrug
         return timeSinceInitialized() > 0.1 && (Math.abs(Robot.drive.getLeftEncoder()) > encoderTarget ||
-               Math.abs(Robot.drive.getRightEncoder()) > encoderTarget);
+                Math.abs(Robot.drive.getRightEncoder()) > encoderTarget);
     }
 
     @Override

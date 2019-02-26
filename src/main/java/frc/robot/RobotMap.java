@@ -41,18 +41,18 @@ public class RobotMap {
         first.setInverted(ports[0] < 0); // let's hope we don't have to invert 0... meh, just reverse *everything* then.
         if (ports.length == 1) return first;
         var rest = new Victor[ports.length - 1];
-        for (var i=1; i<ports.length; i++) {
+        for (var i = 1; i < ports.length; i++) {
             @SuppressWarnings("resource")
             var vic = new Victor(Math.abs(ports[i]));
             vic.setInverted(ports[i] < 0);
-            rest[i-1] = vic;
+            rest[i - 1] = vic;
         }
         return new SpeedControllerGroup(first, rest);
     }
 
     public static DoubleSolenoidGroup makeDoubleSolenoidGroup(int[][] ports) {
         var arr = new DoubleSolenoid[ports.length];
-        for (var i=0; i<ports.length; i++) {
+        for (var i = 0; i < ports.length; i++) {
             arr[i] = new DoubleSolenoid(ports[i][0], ports[i][1]);
         }
         return new DoubleSolenoidGroup(arr);

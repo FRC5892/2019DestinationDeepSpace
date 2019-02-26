@@ -1,10 +1,7 @@
 package frc.robot.subsystems.intake;
 
-import java.io.IOException;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -12,6 +9,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.TalonUtils;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+
+import java.io.IOException;
 
 public class IntakeSubsystem extends Subsystem {
 

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class DoubleSolenoidGroup {
     private DoubleSolenoid[] solenoids;
 
-    public DoubleSolenoidGroup(DoubleSolenoid...solenoids) {
+    public DoubleSolenoidGroup(DoubleSolenoid... solenoids) {
         this.solenoids = solenoids;
     }
 

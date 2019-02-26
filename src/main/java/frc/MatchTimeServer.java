@@ -1,18 +1,16 @@
 package frc;
 
-import java.net.InetSocketAddress;
-
 import com.google.gson.Gson;
-
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.Robot;
 import org.java_websocket.WebSocket;
 import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.RobotController;
-import frc.robot.Robot;
+import java.net.InetSocketAddress;
 
 public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
@@ -35,12 +33,13 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
             message.infos.hasCargo = Robot.intake.hasCargo();
 
             message.warnings.brownedOut = RobotController.isBrownedOut();
-            
+
             var msg = gson.toJson(message);
             for (var conn : getConnections()) {
                 try {
                     conn.send(msg);
-                } catch (WebsocketNotConnectedException e) {}
+                } catch (WebsocketNotConnectedException ignore) {
+                }
             }
         });
     }
@@ -66,13 +65,16 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
     }
 
     @Override
-    public void onOpen(WebSocket conn, ClientHandshake handshake) {}
+    public void onOpen(WebSocket conn, ClientHandshake handshake) {
+    }
 
     @Override
-    public void onClose(WebSocket conn, int code, String reason, boolean remote) {}
+    public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+    }
 
     @Override
-    public void onMessage(WebSocket conn, String message) {}
+    public void onMessage(WebSocket conn, String message) {
+    }
 
     @Override
     public void onError(WebSocket conn, Exception ex) {
@@ -92,11 +94,12 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
     public void close() {
         try {
             stop();
-        } catch (Exception e) {}
+        } catch (Exception ignore) {
+        }
     }
 
     public static void startStarting() {
         starter.startPeriodic(2);
     }
-    
+
 }

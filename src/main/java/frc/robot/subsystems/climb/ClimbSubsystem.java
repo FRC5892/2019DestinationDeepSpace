@@ -1,7 +1,7 @@
 package frc.robot.subsystems.climb;
 
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.DoubleSolenoidGroup;
 import frc.robot.Robot;

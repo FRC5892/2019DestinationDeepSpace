@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * A simple class for implementing PID that allows simple tuning using NetworkTables (and Shuffleboard).
  * Based on <a href="http://brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-introduction/">http://brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-introduction/</a>
  * <aside>Note that I did not implement the final step because the entire purpose of that is to negate the output. If you need negated output, negate it yourself.</aside>
- * 
+ *
  * @author Kai Page
  */
 
@@ -28,7 +28,9 @@ public abstract class HEROicPIDController implements PIDInterface {
     private double m_iTerm = 0, m_lastInput;
     private double m_kP, m_kI, m_kD;
     private double m_kI_pre, m_kD_pre;
-    /** Sample time in ms. */
+    /**
+     * Sample time in ms.
+     */
     public static final int SAMPLE_TIME = 50;
     private double m_outMin, m_outMax;
     private boolean m_minmaxClip = false;
@@ -62,21 +64,21 @@ public abstract class HEROicPIDController implements PIDInterface {
         }
 
         if (tuningMode) {
-			var tab = Shuffleboard.getTab(getClass().getSimpleName());
-			nt_kP = tab.add("kP", m_kP).withPosition(0, 0).getEntry();
-			nt_kI = tab.add("kI", m_kI).withPosition(0, 1).getEntry();
-			nt_kD = tab.add("kD", m_kD).withPosition(0, 2).getEntry();
-			nt_input = tab.add("Input", 0).withPosition(1, 0).getEntry();
-			nt_error = tab.add("Error", 0).withPosition(1, 1).getEntry();
-			nt_output = tab.add("Output", 0).withPosition(1, 2).getEntry();
+            var tab = Shuffleboard.getTab(getClass().getSimpleName());
+            nt_kP = tab.add("kP", m_kP).withPosition(0, 0).getEntry();
+            nt_kI = tab.add("kI", m_kI).withPosition(0, 1).getEntry();
+            nt_kD = tab.add("kD", m_kD).withPosition(0, 2).getEntry();
+            nt_input = tab.add("Input", 0).withPosition(1, 0).getEntry();
+            nt_error = tab.add("Error", 0).withPosition(1, 1).getEntry();
+            nt_output = tab.add("Output", 0).withPosition(1, 2).getEntry();
             nt_skipComputation = tab.add("Computation Skipped", false).withPosition(0, 3).withSize(2, 1).getEntry();
             nt_kP.setDouble(-1);
             nt_kI.setDouble(-1);
             nt_kD.setDouble(-1);
-			updateNTGains();
+            updateNTGains();
 
             logger = Logger.getLogger(getClass().getSimpleName());
-            synchronized(logger) {
+            synchronized (logger) {
                 if (logger.getHandlers().length < 1) {
                     try {
                         var directory = new File("/home/lvuser/PID-logs");
@@ -101,7 +103,7 @@ public abstract class HEROicPIDController implements PIDInterface {
 
     /**
      * Gets whether the controller is in NetworkTable tuning mode.
-     * 
+     *
      * @return Whether the controller is in NetworkTable tuning mode.
      */
     public boolean getTuningMode() {
@@ -121,6 +123,7 @@ public abstract class HEROicPIDController implements PIDInterface {
 
     /**
      * This method is called periodically to get the current input value.
+     *
      * @param skipper Throw this to skip the computation step, and call onSkipComputation instead of usePIDOutput.
      * @return The current input value.
      */
@@ -128,19 +131,23 @@ public abstract class HEROicPIDController implements PIDInterface {
 
     /**
      * This method is called periodically to use the current output value.
+     *
      * @param output The current output value.
      */
     public abstract void usePIDOutput(double output);
 
     protected static class ComputationSkipper extends RuntimeException {
-        private ComputationSkipper() {}
+        private ComputationSkipper() {
+        }
+
         private static final long serialVersionUID = 254L;
     }
 
     /**
      * This method is called in lieu of usePIDOutput whenever getPIDInput skips the computation.
      */
-    public void onSkipComputation() {}
+    public void onSkipComputation() {
+    }
 
     /**
      * This method is called periodically. To be more precise, about every {@link SAMPLE_TIME} ms.
@@ -173,6 +180,7 @@ public abstract class HEROicPIDController implements PIDInterface {
 
     /**
      * Computes the current output value from the current input value.
+     *
      * @param input The current input value, as returned by {@link getPIDInput}.
      * @return The current output value, to be used by {@link usePIDOutput}.
      */
@@ -205,7 +213,7 @@ public abstract class HEROicPIDController implements PIDInterface {
      * Loads the PID constants from a text file under the "deploy/PID" directory.
      */
     private void loadGainsFromFile(String name) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader("/home/lvuser/deploy/PID/" + name + ".txt"));
+        BufferedReader reader = new BufferedReader(new FileReader("/home/lvuser/deploy/PID/" + name + ".txt"));
         try {
             var kP = Double.parseDouble(reader.readLine());
             var kI = Double.parseDouble(reader.readLine());
@@ -282,6 +290,7 @@ public abstract class HEROicPIDController implements PIDInterface {
 
     /**
      * Clips value between the current minimum and maximum.
+     *
      * @param value The value to be clipped.
      * @return The current maximum if value was higher, minimum if lower, value otherwise.
      */

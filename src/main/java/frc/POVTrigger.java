@@ -23,7 +23,7 @@ public class POVTrigger extends Trigger {
 
     /**
      * @param stick The joystick to read from.
-     * @param pov The POV hat to read from.
+     * @param pov   The POV hat to read from.
      * @param angle The angle to react to.
      */
     public POVTrigger(Joystick stick, int pov, int angle) {

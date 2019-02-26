@@ -2,7 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.*;
+import frc.robot.commands.AcquireHatchMacro;
+import frc.robot.commands.AlignWithVisionTargets;
+import frc.robot.commands.ScoreHatchMacro;
 
 public class OI {
     public Joystick pilot = new Joystick(0);

@@ -1,27 +1,24 @@
 package frc;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class TalonUtils {
-    private TalonUtils() {}
+    private TalonUtils() {
+    }
 
     public static void readPID(TalonSRX talon, String name, boolean tuningMode) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("/home/lvuser/deploy/PID/" + name + ".txt"));
         double kP, kI, kD;
-        try {
+        try (BufferedReader reader = new BufferedReader(new FileReader("/home/lvuser/deploy/PID/" + name + ".txt"))) {
             kP = Double.parseDouble(reader.readLine());
             kI = Double.parseDouble(reader.readLine());
             kD = Double.parseDouble(reader.readLine());
-        } finally {
-            reader.close();
         }
         talon.config_kP(0, kP);
         talon.config_kI(0, kI);
