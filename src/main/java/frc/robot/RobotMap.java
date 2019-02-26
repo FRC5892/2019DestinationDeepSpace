@@ -8,6 +8,8 @@ import frc.DoubleSolenoidGroup;
 
 public class RobotMap {
     public static final String competition = "/home/lvuser/deploy/RobotMap/competition.json";
+    public static final String practice = "/home/lvuser/deploy/RobotMap/practice.json";
+
 
     /* CAN */
     public int[] driveLeft;   // SPARK MAX

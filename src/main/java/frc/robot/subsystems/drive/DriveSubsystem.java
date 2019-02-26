@@ -32,6 +32,12 @@ public class DriveSubsystem extends Subsystem {
         }
     }
 
+    DriveSubsystem(DifferentialDrive drive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
+        this.drive = drive;
+        this.leftEncoder = leftEncoder;
+        this.rightEncoder = rightEncoder;
+    }
+
     private static CANSparkMax config(CANSparkMax spark) {
         spark.setIdleMode(IdleMode.kBrake);
         spark.setOpenLoopRampRate(0.5);
