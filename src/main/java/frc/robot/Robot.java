@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.MatchTimeServer;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.drive.PracticeDriveSubsystem;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 
@@ -53,13 +54,13 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     /* RobotMap */
     try {
-      map = new Gson().fromJson(new FileReader(RobotMap.competition), RobotMap.class);
+      map = new Gson().fromJson(new FileReader(RobotMap.practice), RobotMap.class);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
 
     /* Subsystems */
-    drive = new DriveSubsystem();
+    drive = new PracticeDriveSubsystem();
     intake = new IntakeSubsystem();
     elevator = new ElevatorSubsystem();
     climb = new ClimbSubsystem();
