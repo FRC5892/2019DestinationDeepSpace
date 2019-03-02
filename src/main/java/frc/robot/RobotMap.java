@@ -1,9 +1,13 @@
 package frc.robot;
 
+import java.util.ArrayList;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.VictorSP;
 import frc.DoubleSolenoidGroup;
 
 public class RobotMap {
@@ -37,17 +41,54 @@ public class RobotMap {
     public int[][] elevatorBrake;
 
     public static SpeedController makeVictorGroup(int[] ports) {
-        var first = new Victor(Math.abs(ports[0]));
-        first.setInverted(ports[0] < 0); // let's hope we don't have to invert 0... meh, just reverse *everything* then.
-        if (ports.length == 1) return first;
-        var rest = new Victor[ports.length - 1];
-        for (var i = 1; i < ports.length; i++) {
-            @SuppressWarnings("resource")
-            var vic = new Victor(Math.abs(ports[i]));
-            vic.setInverted(ports[i] < 0);
-            rest[i - 1] = vic;
+        if (ports.length == 0) return null;
+        WPI_VictorSPX firstSpx = null;
+        ArrayList<SpeedController> victorSPs = new ArrayList<>();
+
+        for (var port : ports) {
+            var vic = makeSingleVictor(port);
+            if (vic instanceof WPI_VictorSPX) {
+                if (firstSpx == null) {
+                    firstSpx = (WPI_VictorSPX) vic;
+                } else {
+                    ((WPI_VictorSPX) vic).follow(firstSpx);
+                }
+            } else {
+                victorSPs.add(vic);
+            }
         }
-        return new SpeedControllerGroup(first, rest);
+
+        if (firstSpx == null) {
+            if (victorSPs.size() == 1) {
+                return victorSPs.get(0);
+            } else {
+                var rest = new SpeedController[victorSPs.size() - 1];
+                System.arraycopy(victorSPs.toArray(new SpeedController[0]), 1, rest, 0, rest.length);
+                return new SpeedControllerGroup(victorSPs.get(0), rest);
+            }
+        } else if (victorSPs.isEmpty()) {
+            return firstSpx;
+        } else {
+            return new SpeedControllerGroup(firstSpx, victorSPs.toArray(new SpeedController[0]));
+        }
+    }
+
+    public static SpeedController makeSingleVictor(int port) {
+        var inverted = false;
+        if (port < 0) {
+            inverted = true;
+            port *= -1;
+        }
+
+        SpeedController ret;
+        if (port >= 10) {
+            ret = new WPI_VictorSPX(port - 10);
+        } else {
+            ret = new VictorSP(port);
+        }
+
+        ret.setInverted(inverted);
+        return ret;
     }
 
     public static DoubleSolenoidGroup makeDoubleSolenoidGroup(int[][] ports) {
