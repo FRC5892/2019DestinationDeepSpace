@@ -31,15 +31,25 @@ public class TalonUtils {
     @SuppressWarnings("resource")
     private static void makeShuffleboardTab(TalonSRX talon, String name, double kP, double kI, double kD) {
         var tab = Shuffleboard.getTab(name);
-        tab.add("kP", kP).withPosition(0, 0).getEntry().addListener((evt) -> {
+
+        var kPEntry = tab.add("kP", kP).withPosition(0, 0).getEntry();
+        kPEntry.setDouble(kP);
+        kPEntry.addListener((evt) -> {
             talon.config_kP(0, evt.value.getDouble());
         }, EntryListenerFlags.kUpdate);
-        tab.add("kI", kI).withPosition(0, 1).getEntry().addListener((evt) -> {
+
+        var kIEntry = tab.add("kI", kI).withPosition(0, 1).getEntry();
+        kIEntry.setDouble(kI);
+        kIEntry.addListener((evt) -> {
             talon.config_kI(0, evt.value.getDouble());
         }, EntryListenerFlags.kUpdate);
-        tab.add("kD", kD).withPosition(0, 2).getEntry().addListener((evt) -> {
+
+        var kDEntry = tab.add("kD", kD).withPosition(0, 2).getEntry();
+        kDEntry.setDouble(kD);
+        kDEntry.addListener((evt) -> {
             talon.config_kD(0, evt.value.getDouble());
         }, EntryListenerFlags.kUpdate);
+
         var inputEntry = tab.add("Input", 0).withPosition(1, 0).getEntry();
         var errorEntry = tab.add("Error", 0).withPosition(1, 1).getEntry();
         var outputEntry = tab.add("Output", 0).withPosition(1, 2).getEntry();

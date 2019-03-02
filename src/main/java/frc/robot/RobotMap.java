@@ -17,7 +17,7 @@ public class RobotMap {
 
     /* CAN */
     public int[] driveLeft;   // SPARK MAX
-    public int[] driveRight;  // SPARK MAX
+    public int[] driveRight;  // SPARK MAX // these are victors on the practice bot shhh
     public int intakeWrist;   // Talon SRX
     public int elevatorWinch; // Talon SRX
 
