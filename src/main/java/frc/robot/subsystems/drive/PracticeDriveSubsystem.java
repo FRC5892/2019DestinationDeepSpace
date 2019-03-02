@@ -26,4 +26,8 @@ public class PracticeDriveSubsystem extends DriveSubsystem {
     public double getRightEncoder() {
         return 0;
     }
+
+    @Override
+    public void resetEncoders() {
+    }
 }
