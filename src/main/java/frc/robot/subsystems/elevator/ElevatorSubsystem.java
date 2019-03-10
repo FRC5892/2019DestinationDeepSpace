@@ -5,8 +5,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.DoubleSolenoidGroup;
 import frc.TalonUtils;
 import frc.robot.Robot;
@@ -34,12 +37,13 @@ public class ElevatorSubsystem extends Subsystem {
     public ElevatorSubsystem() {
         winch = new TalonSRX(Robot.map.elevatorWinch);
         winch.setSensorPhase(true);
-        try {
+        /*try {
             TalonUtils.readPID(winch, "ElevatorWinch", TUNING_MODE);
         } catch (IOException e) {
             DriverStation.reportWarning("Couldn't read PID gains for elevator winch.", e.getStackTrace());
-        }
+        }*/
         winchSupport = RobotMap.makeVictorGroup(Robot.map.elevatorWinchSupport);
+        LiveWindow.add((Sendable) winchSupport);
         brake = RobotMap.makeDoubleSolenoidGroup(Robot.map.elevatorBrake);
         topLimitSwitch = new DigitalInput(Robot.map.elevatorTopLimitSwitch);
         bottomLimitSwitch = new DigitalInput(Robot.map.elevatorBottomLimitSwitch);
@@ -51,12 +55,13 @@ public class ElevatorSubsystem extends Subsystem {
     }
 
     public void setWinchSpeed(double speed) {
-        if (speed > 0 && topLimitSwitchTriggered()) {
+        /*if (speed > 0 && topLimitSwitchTriggered()) {
             winch.set(ControlMode.PercentOutput, 0);
             brake.set(Value.kReverse);
             return;
         }
-        winch.set(ControlMode.PercentOutput, speed);
+        winch.set(ControlMode.PercentOutput, speed);*/
+        winchSupport.set(speed);
         brake.set((speed == 0) ? Value.kForward : Value.kReverse);
     }
 
@@ -81,7 +86,7 @@ public class ElevatorSubsystem extends Subsystem {
         return bottomLimitSwitch.get();
     }
 
-    @Override
+    /*@Override
     public void periodic() {
         // can't use getClosedLoopError() because it changes when we neutral the motor
         if (winchIsOnSetpoint()) {
@@ -95,5 +100,5 @@ public class ElevatorSubsystem extends Subsystem {
         }
         // lol discount following
         winchSupport.set(winch.getMotorOutputPercent());
-    }
+    }*/
 }

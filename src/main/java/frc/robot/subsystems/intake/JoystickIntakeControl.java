@@ -21,9 +21,9 @@ class JoystickIntakeControl extends Command {
         }
 
         Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(3) - Robot.oi.pilot.getRawAxis(2));
-        Robot.intake.setCargoGrabbers(Robot.oi.pilot.getRawAxis(3) - Robot.oi.pilot.getRawAxis(2));
+        Robot.intake.setCargoGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));
 
-        if (Robot.oi.pilot.getRawButton(1)) {
+        /*if (Robot.oi.pilot.getRawButton(1)) {
             Robot.intake.setWristSpeed(MANUAL_WRIST_SPEED);
         } else if (Robot.oi.pilot.getRawButton(4)) {
             Robot.intake.setWristSpeed(-MANUAL_WRIST_SPEED);
@@ -39,7 +39,7 @@ class JoystickIntakeControl extends Command {
 
         if (Robot.oi.pilot.getRawButton(3)) {
             Robot.intake.resetWristSensor();
-        }
+        }*/
     }
 
     @Override

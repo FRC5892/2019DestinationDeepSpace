@@ -43,7 +43,6 @@ public class Robot extends TimedRobot {
     public static ElevatorSubsystem elevator;
     public static ClimbSubsystem climb;
 
-    // 0psi -> 400 and 120psi -> 3200
     public static AnalogInput pressureSensor;
     public static SerialPort serial;
 
@@ -60,18 +59,18 @@ public class Robot extends TimedRobot {
         /* Subsystems */
         drive = new PracticeDriveSubsystem();
         intake = new IntakeSubsystem();
-        elevator = new ElevatorSubsystem();
-        climb = new ClimbSubsystem();
+        //elevator = new ElevatorSubsystem();
+        //climb = new ClimbSubsystem();
 
         /* OI */
         oi = new OI();
 
         /* Miscellaneous I/O */
         pressureSensor = new AnalogInput(map.pressureSensor);
-        new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
+        // new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
 
         /* MatchTimeServer */
-        MatchTimeServer.startStarting();
+        //MatchTimeServer.startStarting();
     }
 
     private static final byte[] GREEN = {0};
@@ -114,7 +113,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         intake.setWristSpeed(0);
-        elevator.setWinchSpeed(0);
+        //elevator.setWinchSpeed(0);
     }
 
     @Override

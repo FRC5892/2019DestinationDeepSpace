@@ -30,11 +30,11 @@ public class IntakeSubsystem extends Subsystem {
         cargoLimitSwitch = new DigitalInput(Robot.map.intakeCargoLimitSwitch);
         wrist = new TalonSRX(Robot.map.intakeWrist);
         wrist.setSensorPhase(true); // god that method is horribly named.
-        try {
+        /*try {
             TalonUtils.readPID(wrist, "IntakeWrist", TUNING_MODE);
         } catch (IOException e) {
             DriverStation.reportWarning("Couldn't read PID gains for intake wrist.", e.getStackTrace());
-        }
+        }*/
     }
 
     @Override
