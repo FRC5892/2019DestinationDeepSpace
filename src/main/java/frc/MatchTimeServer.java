@@ -11,17 +11,22 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
+
+    public static final Map<String, String> receivableSettings = new HashMap<>();
 
     private static Notifier starter = new Notifier(() -> {
         new MatchTimeServer().start();
     });
     private Notifier pinger;
 
+    private static final Gson gson = new Gson();
+
     private MatchTimeServer() {
         super(new InetSocketAddress(5800)); // bluh bluh. wish it could be 5892.
-        var gson = new Gson();
         pinger = new Notifier(() -> {
             var message = new Message();
             message.matchTime = (int) DriverStation.getInstance().getMatchTime();
@@ -74,6 +79,18 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
     @Override
     public void onMessage(WebSocket conn, String message) {
+        try {
+            var incoming = gson.fromJson(message, IncomingMessage.class);
+            if (incoming.name != null || incoming.data != null) {
+                receivableSettings.put(incoming.name, incoming.data);
+            }
+        } catch (Exception ignore) {
+        }
+    }
+
+    private class IncomingMessage {
+        String name;
+        String data;
     }
 
     @Override
@@ -85,6 +102,8 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
     public void onStart() {
         starter.close();
         pinger.startPeriodic(0.125);
+
+        receivableSettings.put("auton-side", "none");
     }
 
     // this sometimes lets it free up the port when we redeploy the code.
