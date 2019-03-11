@@ -5,7 +5,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.DoubleSolenoidGroup;
 import frc.TalonUtils;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -20,12 +22,16 @@ public class IntakeSubsystem extends Subsystem {
     public static final double DOWN_SETPOINT = 330000;
 
     private final SpeedController hatchGrabbers, cargoGrabbers;
+    private final DoubleSolenoidGroup pistons;
     private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
     private final TalonSRX wrist;
+
+    public boolean cargoMode;
 
     public IntakeSubsystem() {
         hatchGrabbers = RobotMap.makeVictorGroup(Robot.map.intakeHatchGrabbers);
         cargoGrabbers = RobotMap.makeVictorGroup(Robot.map.intakeCargoGrabbers);
+        pistons = RobotMap.makeDoubleSolenoidGroup(Robot.map.intakePistons);
         hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
         cargoLimitSwitch = new DigitalInput(Robot.map.intakeCargoLimitSwitch);
         wrist = new TalonSRX(Robot.map.intakeWrist);
@@ -83,5 +89,9 @@ public class IntakeSubsystem extends Subsystem {
 
     public boolean wristIsOnSetpoint() {
         return wrist.getControlMode() == ControlMode.Position;
+    }
+
+    public void setPistons(Value value) {
+        pistons.set(value);
     }
 }

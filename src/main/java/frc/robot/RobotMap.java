@@ -37,8 +37,8 @@ public class RobotMap {
     public int pressureSensor;
 
     /* Solenoids */
+    public int[][] intakePistons;
     public int[][] climbPistons;
-    public int[][] elevatorBrake;
 
     public static SpeedController makeVictorGroup(int[] ports) {
         if (ports.length == 0) return null;

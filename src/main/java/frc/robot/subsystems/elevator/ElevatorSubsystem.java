@@ -29,7 +29,6 @@ public class ElevatorSubsystem extends Subsystem {
 
     private final TalonSRX winch;
     private final SpeedController winchSupport;
-    private final DoubleSolenoidGroup brake;
     private final DigitalInput topLimitSwitch, bottomLimitSwitch;
 
     private double winchSetpoint;
@@ -44,7 +43,6 @@ public class ElevatorSubsystem extends Subsystem {
         }*/
         winchSupport = RobotMap.makeVictorGroup(Robot.map.elevatorWinchSupport);
         LiveWindow.add((Sendable) winchSupport);
-        brake = RobotMap.makeDoubleSolenoidGroup(Robot.map.elevatorBrake);
         topLimitSwitch = new DigitalInput(Robot.map.elevatorTopLimitSwitch);
         bottomLimitSwitch = new DigitalInput(Robot.map.elevatorBottomLimitSwitch);
     }
@@ -62,7 +60,6 @@ public class ElevatorSubsystem extends Subsystem {
         }
         winch.set(ControlMode.PercentOutput, speed);*/
         winchSupport.set(speed);
-        brake.set((speed == 0) ? Value.kForward : Value.kReverse);
     }
 
     public void setWinchSetpoint(double target) {
