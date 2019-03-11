@@ -39,6 +39,8 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
             message.warnings.brownedOut = RobotController.isBrownedOut();
 
+            message.settings.autonSide = receivableSettings.get("auton-side");
+
             var msg = gson.toJson(message);
             for (var conn : getConnections()) {
                 try {
@@ -58,6 +60,8 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
         Infos infos = new Infos();
         Warnings warnings = new Warnings();
 
+        Settings settings = new Settings();
+
         private class Infos {
             boolean slowDrive;
             boolean hasHatch;
@@ -66,6 +70,10 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
         private class Warnings {
             boolean brownedOut;
+        }
+
+        private class Settings {
+            String autonSide;
         }
     }
 
