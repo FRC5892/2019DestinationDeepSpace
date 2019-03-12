@@ -11,12 +11,10 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
-    public static final Map<String, String> receivableSettings = new HashMap<>();
+    public static final Message.Settings receivableSettings = new Message().new Settings();
 
     private static Notifier starter = new Notifier(() -> {
         new MatchTimeServer().start();
@@ -39,7 +37,7 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
             message.warnings.brownedOut = RobotController.isBrownedOut();
 
-            message.settings.autonSide = receivableSettings.get("auton-side");
+            message.settings = receivableSettings;
 
             var msg = gson.toJson(message);
             for (var conn : getConnections()) {
@@ -51,29 +49,28 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
         });
     }
 
-    @SuppressWarnings("unused")
-    private class Message {
-        int matchTime;
-        double batteryVoltage;
-        int pressureReading;
+    public static class Message {
+        public int matchTime;
+        public double batteryVoltage;
+        public int pressureReading;
 
-        Infos infos = new Infos();
-        Warnings warnings = new Warnings();
+        public Infos infos = new Infos();
+        public Warnings warnings = new Warnings();
 
-        Settings settings = new Settings();
+        public Settings settings = new Settings();
 
-        private class Infos {
-            boolean slowDrive;
-            boolean hasHatch;
-            boolean hasCargo;
+        public class Infos {
+            public boolean slowDrive;
+            public boolean hasHatch;
+            public boolean hasCargo;
         }
 
-        private class Warnings {
-            boolean brownedOut;
+        public class Warnings {
+            public boolean brownedOut;
         }
 
-        private class Settings {
-            String autonSide;
+        public class Settings {
+            public String autonSide;
         }
     }
 
@@ -89,8 +86,12 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
     public void onMessage(WebSocket conn, String message) {
         try {
             var incoming = gson.fromJson(message, IncomingMessage.class);
-            if (incoming.name != null || incoming.data != null) {
-                receivableSettings.put(incoming.name, incoming.data);
+            if (incoming.data != null) {
+                switch (incoming.name) {
+                    case "auton-side":
+                      receivableSettings.autonSide = incoming.data;
+                      break;
+                }
             }
         } catch (Exception ignore) {
         }
@@ -111,7 +112,7 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
         starter.close();
         pinger.startPeriodic(0.125);
 
-        receivableSettings.put("auton-side", "none");
+        receivableSettings.autonSide = "none";
     }
 
     // this sometimes lets it free up the port when we redeploy the code.
