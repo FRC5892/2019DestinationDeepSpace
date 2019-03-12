@@ -3,18 +3,18 @@
     "driveRight": [7, 8],
 
     "intakeWrist": 1,
-    "intakeHatchGrabbers": [1],
+    "intakeHatchGrabbers": [3],
     "intakeCargoGrabbers": [4],
     "intakePistons": [[0, 1], [2, 3]],
     "intakeHatchLimitSwitch": 0,
     "intakeCargoLimitSwitch": 1,
 
     "elevatorWinch": 2,
-    "elevatorWinchSupport": [-4, 12],
+    "elevatorWinchSupport": [-1, 12],
     "elevatorTopLimitSwitch": 2,
     "elevatorBottomLimitSwitch": 3,
 
-    "climbArms": [1, 5],
+    "climbArms": [11, 5],
     "climbPistons": [[0, 1], [7, 6]],
 
     "pressureSensor": 0

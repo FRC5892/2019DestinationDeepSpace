@@ -24,8 +24,7 @@ public class IntakeSubsystem extends Subsystem {
     private final SpeedController hatchGrabbers, cargoGrabbers;
     private final DoubleSolenoidGroup pistons;
     private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
-    //private final TalonSRX wrist;
-    private final SpeedController wrist;
+    private final TalonSRX wrist;
 
     public boolean cargoMode;
 
@@ -35,14 +34,13 @@ public class IntakeSubsystem extends Subsystem {
         pistons = RobotMap.makeDoubleSolenoidGroup(Robot.map.intakePistons);
         hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
         cargoLimitSwitch = new DigitalInput(Robot.map.intakeCargoLimitSwitch);
-        wrist = RobotMap.makeSingleVictor(Robot.map.intakeWrist);
-        /*wrist = new TalonSRX(Robot.map.intakeWrist);
+        wrist = new TalonSRX(Robot.map.intakeWrist);
         wrist.setSensorPhase(true); // god that method is horribly named.
         try {
             TalonUtils.readPID(wrist, "IntakeWrist", TUNING_MODE);
         } catch (IOException e) {
             DriverStation.reportWarning("Couldn't read PID gains for intake wrist.", e.getStackTrace());
-        }*/
+        }
     }
 
     @Override
@@ -78,15 +76,15 @@ public class IntakeSubsystem extends Subsystem {
     }
 
     public void setWristSpeed(double speed) {
-        wrist.set(/*ControlMode.PercentOutput, */speed);
+        wrist.set(ControlMode.PercentOutput, speed);
     }
 
     public void setWristSetpoint(double target) {
-        //wrist.set(ControlMode.Position, target);
+        wrist.set(ControlMode.Position, target);
     }
 
     public void resetWristSensor() {
-        //wrist.setSelectedSensorPosition(0);
+        wrist.setSelectedSensorPosition(0);
     }
 
     public boolean wristIsOnSetpoint() {

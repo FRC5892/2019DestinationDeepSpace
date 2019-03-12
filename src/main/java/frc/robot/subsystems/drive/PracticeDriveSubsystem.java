@@ -18,6 +18,11 @@ public class PracticeDriveSubsystem extends DriveSubsystem {
     }
 
     @Override
+    public void arcadeDrive(double xSpeed, double zRotation) {
+        super.arcadeDrive(xSpeed * 0.8, zRotation * 0.8);
+    }
+
+    @Override
     public double getLeftEncoder() {
         return 0;
     }
