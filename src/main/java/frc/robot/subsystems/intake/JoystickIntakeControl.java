@@ -48,55 +48,43 @@ class JoystickIntakeControl extends Command {
     protected void initializeHatchMode() {}
 
     protected void executeHatchMode() {
-        Robot.intake.setPistons(Value.kForward);
+        Robot.intake.setPistons(Value.kReverse);
 
         Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(3) - Robot.oi.pilot.getRawAxis(2));
         Robot.intake.setCargoGrabbers(0);
 
-        /*if (Robot.oi.pilot.getRawButton(1)) {
-            Robot.intake.setWristSpeed(MANUAL_WRIST_SPEED);
-        } else if (Robot.oi.pilot.getRawButton(4)) {
-            Robot.intake.setWristSpeed(-MANUAL_WRIST_SPEED);
-        } else if (Robot.oi.pilot.getPOV() == 0) {
-            Robot.intake.setWristSetpoint(IntakeSubsystem.UP_SETPOINT); // starting position
-        } else if (Robot.oi.pilot.getPOV() == 180) {
-            Robot.intake.setWristSetpoint(IntakeSubsystem.DOWN_SETPOINT); // "acquisition position"
-        } else if (Robot.oi.pilot.getPOV() == 270) {
-            Robot.intake.setWristSetpoint(IntakeSubsystem.MID_SETPOINT); // loading station position
-        } else if (!Robot.intake.wristIsOnSetpoint()) {
-            Robot.intake.setWristSpeed(0);
-        }
-
-        if (Robot.oi.pilot.getRawButton(3)) {
-            Robot.intake.resetWristSensor();
-        }*/
+        executeWrist();
     }
 
     protected void initializeCargoMode() {}
 
     protected void executeCargoMode() {
-        Robot.intake.setPistons(Value.kReverse);
+        Robot.intake.setPistons(Value.kForward);
 
         Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));
         Robot.intake.setCargoGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));
 
-        /*if (Robot.oi.pilot.getRawButton(1)) {
-            Robot.intake.setWristSpeed(MANUAL_WRIST_SPEED);
-        } else if (Robot.oi.pilot.getRawButton(4)) {
+        executeWrist();
+    }
+
+    protected void executeWrist() {
+        if (Robot.oi.pilot.getRawButton(1)) {
             Robot.intake.setWristSpeed(-MANUAL_WRIST_SPEED);
-        } else if (Robot.oi.pilot.getPOV() == 0) {
+        } else if (Robot.oi.pilot.getRawButton(4)) {
+            Robot.intake.setWristSpeed(MANUAL_WRIST_SPEED);
+        } /*else if (Robot.oi.pilot.getPOV() == 0) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.UP_SETPOINT); // starting position
         } else if (Robot.oi.pilot.getPOV() == 180) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.DOWN_SETPOINT); // "acquisition position"
         } else if (Robot.oi.pilot.getPOV() == 270) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.MID_SETPOINT); // loading station position
-        } else if (!Robot.intake.wristIsOnSetpoint()) {
+        } */else if (!Robot.intake.wristIsOnSetpoint()) {
             Robot.intake.setWristSpeed(0);
         }
 
         if (Robot.oi.pilot.getRawButton(3)) {
             Robot.intake.resetWristSensor();
-        }*/
+        }
     }
 
     @Override

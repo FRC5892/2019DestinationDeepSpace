@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
         // new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
 
         /* MatchTimeServer */
-        //MatchTimeServer.startStarting();
+        MatchTimeServer.startStarting();
     }
 
     private static final byte[] GREEN = {0};

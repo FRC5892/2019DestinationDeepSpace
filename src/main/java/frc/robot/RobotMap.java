@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -82,7 +83,9 @@ public class RobotMap {
 
         SpeedController ret;
         if (port >= 10) {
-            ret = new WPI_VictorSPX(port - 10);
+            var _ret = new WPI_VictorSPX(port - 10);
+            _ret.setNeutralMode(NeutralMode.Brake);
+            ret = _ret;
         } else {
             ret = new VictorSP(port);
         }
