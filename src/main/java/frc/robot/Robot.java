@@ -51,13 +51,13 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         /* RobotMap */
         try {
-            map = new Gson().fromJson(new FileReader(RobotMap.practice), RobotMap.class);
+            map = new Gson().fromJson(new FileReader(RobotMap.competition), RobotMap.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         /* Subsystems */
-        drive = new PracticeDriveSubsystem();
+        drive = new DriveSubsystem();
         intake = new IntakeSubsystem();
         elevator = new ElevatorSubsystem();
         //climb = new ClimbSubsystem();
@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
 
         /* Miscellaneous I/O */
         pressureSensor = new AnalogInput(map.pressureSensor);
-        // new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
+        new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
 
         /* MatchTimeServer */
         MatchTimeServer.startStarting();

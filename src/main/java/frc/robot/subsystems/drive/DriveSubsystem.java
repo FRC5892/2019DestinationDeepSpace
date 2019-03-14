@@ -39,7 +39,7 @@ public class DriveSubsystem extends Subsystem {
 
     private static CANSparkMax config(CANSparkMax spark) {
         spark.setIdleMode(IdleMode.kBrake);
-        spark.setOpenLoopRampRate(0.5);
+        spark.setOpenLoopRampRate(1);
         spark.getEncoder().setPositionConversionFactor(1 / 12.45);
         //spark.setSmartCurrentLimit(40);
         //spark.burnFlash();
