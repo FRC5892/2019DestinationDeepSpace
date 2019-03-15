@@ -18,12 +18,13 @@ public class IntakeSubsystem extends Subsystem {
 
     private static final boolean TUNING_MODE = true;
     public static final double UP_SETPOINT = 0;
-    public static final double MID_SETPOINT = 265000;
-    public static final double DOWN_SETPOINT = 330000;
+    public static final double MID_SETPOINT = -265000;
+    public static final double DOWN_SETPOINT = -330000;
 
     private final SpeedController hatchGrabbers, cargoGrabbers;
     private final DoubleSolenoidGroup pistons;
     private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
+    private final DigitalInput wristTopLimitSwitch, wristBottomLimitSwitch;
     private final TalonSRX wrist;
 
     public boolean cargoMode = false;
@@ -34,6 +35,8 @@ public class IntakeSubsystem extends Subsystem {
         pistons = RobotMap.makeDoubleSolenoidGroup(Robot.map.intakePistons);
         hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
         cargoLimitSwitch = new DigitalInput(Robot.map.intakeCargoLimitSwitch);
+        wristTopLimitSwitch = new DigitalInput(Robot.map.intakeWristTopLimitSwitch);
+        wristBottomLimitSwitch = new DigitalInput(Robot.map.intakeWristBottomLimitSwitch);
         wrist = new TalonSRX(Robot.map.intakeWrist);
         wrist.setSensorPhase(true); // god that method is horribly named.
         try {
@@ -80,15 +83,23 @@ public class IntakeSubsystem extends Subsystem {
     }
 
     public void setWristSetpoint(double target) {
-        wrist.set(ControlMode.Position, target);
+        //wrist.set(ControlMode.Position, target);
     }
 
     public void resetWristSensor() {
-        wrist.setSelectedSensorPosition(0);
+        //wrist.setSelectedSensorPosition(0);
     }
 
     public boolean wristIsOnSetpoint() {
-        return false; //wrist.getControlMode() == ControlMode.Position;
+        return wrist.getControlMode() == ControlMode.Position;
+    }
+
+    public boolean wristIsAtTop() {
+        return wristTopLimitSwitch.get();
+    }
+
+    public boolean wristIsAtBottom() {
+        return wristBottomLimitSwitch.get();
     }
 
     public void setPistons(Value value) {

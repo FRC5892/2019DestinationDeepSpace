@@ -69,6 +69,9 @@ public class Robot extends TimedRobot {
         pressureSensor = new AnalogInput(map.pressureSensor);
         new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
 
+        /* Cameras */
+        
+
         /* MatchTimeServer */
         MatchTimeServer.startStarting();
     }

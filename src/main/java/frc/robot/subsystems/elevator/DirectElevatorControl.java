@@ -10,7 +10,7 @@ class DirectElevatorControl extends Command {
     }
 
     private static final double WINCH_SPEED_UP = 1;
-    private static final double WINCH_SPEED_DOWN = 0.2;
+    private static final double WINCH_SPEED_DOWN = 0.4;
 
     @Override
     protected void execute() {
@@ -19,13 +19,13 @@ class DirectElevatorControl extends Command {
             Robot.elevator.setWinchSpeed(WINCH_SPEED_UP * input);
         } else if (input < -0.15) {
             Robot.elevator.setWinchSpeed(WINCH_SPEED_DOWN * input);
-        } else if (Robot.oi.copilot.getRawButton(1)) {
+        /*} else if (Robot.oi.copilot.getRawButton(1)) {
             Robot.elevator.setWinchSetpoint(ElevatorSubsystem.BOTTOM); // starting position
         } else if (Robot.oi.copilot.getRawButton(2)) {
             Robot.elevator.setWinchSetpoint(ElevatorSubsystem.HATCH_2); // "acquisition position"
         } else if (Robot.oi.copilot.getRawButton(4)) {
-            Robot.elevator.setWinchSetpoint(ElevatorSubsystem.HATCH_3); // loading station position
-        } else if (!Robot.elevator.winchIsOnSetpoint()) {
+            Robot.elevator.setWinchSetpoint(ElevatorSubsystem.HATCH_3); // loading station position*/
+        } else if (/*!Robot.elevator.winchIsOnSetpoint()*/ true) {
             Robot.elevator.setWinchSpeed(0);
         }
 

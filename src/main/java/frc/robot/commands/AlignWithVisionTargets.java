@@ -9,6 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.HEROicPIDController;
 import frc.robot.Robot;
@@ -20,13 +22,14 @@ public class AlignWithVisionTargets extends Command {
 
     private static final boolean DEBUG_MODE = true;
 
-    private static NetworkTableEntry xCenter, size, visible; //, xCenterRight, sizeRight, visibleRight;
+    private static NetworkTableEntry xCenter, size, visible, robotTimestamp, lastFrame; //, xCenterRight, sizeRight, visibleRight;
 
     private final double turnTolerance, moveTolerance;
 
     private final VisionTurnController turnController = new VisionTurnController();
     private final VisionMoveController moveController = new VisionMoveController();
 
+    @SuppressWarnings("resource")
     public AlignWithVisionTargets(double turnTolerance, double moveTolerance) {
         requires(Robot.drive);
         this.turnTolerance = turnTolerance;
@@ -37,6 +40,11 @@ public class AlignWithVisionTargets extends Command {
             xCenter = table.getEntry("xCenter");
             size = table.getEntry("size");
             visible = table.getEntry("visible");
+            robotTimestamp = table.getEntry("robotTimestamp");
+            lastFrame = table.getEntry("lastFrame");
+            new Notifier(() -> {
+                robotTimestamp.setDouble(Timer.getFPGATimestamp());
+            }).startPeriodic(1.0 / 30);
         }
     }
 
@@ -80,6 +88,13 @@ public class AlignWithVisionTargets extends Command {
         Robot.drive.arcadeDrive(move, turn);
     }
 
+    private static boolean seesTarget() {
+        if (!(lastFrame.getDouble(0) < 0.5 + Timer.getFPGATimestamp())) {
+            System.out.println("the pi is ded");
+        }
+        return visible.getBoolean(false) && lastFrame.getDouble(0) < 0.5 + Timer.getFPGATimestamp();
+    }
+
     private class VisionMoveController extends HEROicPIDController {
 
         VisionMoveController() {
@@ -90,7 +105,7 @@ public class AlignWithVisionTargets extends Command {
 
         @Override
         public double getPIDInput(ComputationSkipper skipper) {
-            if (!visible.getBoolean(false)) {
+            if (!seesTarget()) {
                 throw skipper;
             } else {
                 return size.getDouble(getSetpoint());
@@ -119,7 +134,7 @@ public class AlignWithVisionTargets extends Command {
 
         @Override
         public double getPIDInput(ComputationSkipper skipper) {
-            if (!visible.getBoolean(false) || size.getDouble(0) > 30000) {
+            if (!seesTarget() || size.getDouble(0) > 30000) {
                 throw skipper;
             } else {
                 return xCenter.getDouble(getSetpoint());

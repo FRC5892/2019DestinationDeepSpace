@@ -67,19 +67,56 @@ class JoystickIntakeControl extends Command {
         executeWrist();
     }
 
+    private static enum WristTarget {
+        none,
+        top,
+        bottom
+    }
+
+    private WristTarget wristTarget = WristTarget.none;
+
     protected void executeWrist() {
-        if (Robot.oi.copilot.getRawButton(1)) {
+        if (Robot.oi.pilot.getRawButton(1)) {
             Robot.intake.setWristSpeed(-MANUAL_WRIST_SPEED);
-        } else if (Robot.oi.copilot.getRawButton(4)) {
+            wristTarget = WristTarget.none;
+        } else if (Robot.oi.pilot.getRawButton(4)) {
             Robot.intake.setWristSpeed(MANUAL_WRIST_SPEED);
-        } /*else if (Robot.oi.pilot.getPOV() == 0) {
+            wristTarget = WristTarget.none;
+        /*} else if (Robot.oi.pilot.getPOV() == 0) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.UP_SETPOINT); // starting position
         } else if (Robot.oi.pilot.getPOV() == 180) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.DOWN_SETPOINT); // "acquisition position"
         } else if (Robot.oi.pilot.getPOV() == 270) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.MID_SETPOINT); // loading station position
-        } */else if (!Robot.intake.wristIsOnSetpoint()) {
-            Robot.intake.setWristSpeed(0);
+        } else if (!Robot.intake.wristIsOnSetpoint()) {
+            Robot.intake.setWristSpeed(0);*/
+        } else if (Robot.oi.pilot.getPOV() == 0) {
+            wristTarget = WristTarget.top;
+        } else if (Robot.oi.pilot.getPOV() == 180) {
+            wristTarget = WristTarget.bottom;
+        } else {
+            if (wristTarget == WristTarget.none) {
+                Robot.intake.setWristSpeed(0);
+            }
+        }
+
+        switch (wristTarget) {
+            case none:
+              break;
+            case top:
+              if (Robot.intake.wristIsAtTop()) {
+                  Robot.intake.setWristSpeed(0);
+              } else {
+                  Robot.intake.setWristSpeed(MANUAL_WRIST_SPEED);
+              }
+              break;
+            case bottom:
+              if (Robot.intake.wristIsAtBottom()) {
+                  Robot.intake.setWristSpeed(0);
+              } else {
+                  Robot.intake.setWristSpeed(-MANUAL_WRIST_SPEED);
+              }
+              break;
         }
 
         if (Robot.oi.pilot.getRawButton(3)) {
