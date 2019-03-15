@@ -18,7 +18,7 @@ import frc.robot.Robot;
  */
 public class AlignWithVisionTargets extends Command {
 
-    private static final boolean DEBUG_MODE = false;
+    private static final boolean DEBUG_MODE = true;
 
     private static NetworkTableEntry xCenter, size, visible; //, xCenterRight, sizeRight, visibleRight;
 

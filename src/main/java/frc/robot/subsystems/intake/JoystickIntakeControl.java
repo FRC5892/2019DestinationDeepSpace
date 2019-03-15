@@ -30,10 +30,10 @@ class JoystickIntakeControl extends Command {
             return;
         }
 
-        if (Robot.oi.pilot.getRawButtonPressed(5) && Robot.intake.cargoMode) {
+        if (Robot.oi.copilot.getRawButtonPressed(5) && Robot.intake.cargoMode) {
             initializeHatchMode();
             Robot.intake.cargoMode = false;
-        } else if (Robot.oi.pilot.getRawButtonPressed(6) && !Robot.intake.cargoMode) {
+        } else if (Robot.oi.copilot.getRawButtonPressed(6) && !Robot.intake.cargoMode) {
             initializeCargoMode();
             Robot.intake.cargoMode = true;
         }
@@ -68,9 +68,9 @@ class JoystickIntakeControl extends Command {
     }
 
     protected void executeWrist() {
-        if (Robot.oi.pilot.getRawButton(1)) {
+        if (Robot.oi.copilot.getRawButton(1)) {
             Robot.intake.setWristSpeed(-MANUAL_WRIST_SPEED);
-        } else if (Robot.oi.pilot.getRawButton(4)) {
+        } else if (Robot.oi.copilot.getRawButton(4)) {
             Robot.intake.setWristSpeed(MANUAL_WRIST_SPEED);
         } /*else if (Robot.oi.pilot.getPOV() == 0) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.UP_SETPOINT); // starting position

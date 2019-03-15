@@ -60,6 +60,7 @@ public class ElevatorSubsystem extends Subsystem {
         return winch.getControlMode() != ControlMode.PercentOutput;
     }
 
+    
     public void resetEncoder() {
         winch.setSelectedSensorPosition(0);
     }

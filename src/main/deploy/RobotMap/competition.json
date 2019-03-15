@@ -5,7 +5,7 @@
     "intakeWrist": 1,
     "intakeHatchGrabbers": [-1],
     "intakeCargoGrabbers": [5],
-    "intakePistons": [],
+    "intakePistons": [[3, 2]],
     "intakeHatchLimitSwitch": 0,
     "intakeCargoLimitSwitch": 1,
 
@@ -15,7 +15,7 @@
     "elevatorBottomLimitSwitch": 3,
 
     "climbArms": [2, 3],
-    "climbPistons": [[0, 1], [7, 6]],
+    "climbPistons": [[4, 5], [6, 7]],
 
     "pressureSensor": 0
 }

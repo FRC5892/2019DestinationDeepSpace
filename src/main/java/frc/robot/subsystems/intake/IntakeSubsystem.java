@@ -26,7 +26,7 @@ public class IntakeSubsystem extends Subsystem {
     private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
     private final TalonSRX wrist;
 
-    public boolean cargoMode;
+    public boolean cargoMode = false;
 
     public IntakeSubsystem() {
         hatchGrabbers = RobotMap.makeVictorGroup(Robot.map.intakeHatchGrabbers);
