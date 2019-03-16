@@ -70,7 +70,8 @@ public class Robot extends TimedRobot {
         new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
 
         /* Cameras */
-        
+        var cam = CameraServer.getInstance().startAutomaticCapture(0);
+        cam.setResolution(360, 240);
 
         /* MatchTimeServer */
         MatchTimeServer.startStarting();

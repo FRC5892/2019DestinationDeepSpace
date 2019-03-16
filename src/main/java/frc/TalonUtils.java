@@ -1,5 +1,6 @@
 package frc;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.wpilibj.Notifier;
@@ -26,6 +27,7 @@ public class TalonUtils {
         if (tuningMode) {
             makeShuffleboardTab(talon, name, kP, kI, kD);
         }
+        talon.setNeutralMode(NeutralMode.Brake);
     }
 
     @SuppressWarnings("resource")
