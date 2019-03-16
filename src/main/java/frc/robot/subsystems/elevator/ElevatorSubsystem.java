@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class ElevatorSubsystem extends Subsystem {
 
-    private static final boolean TUNING_MODE = true;
+    private static final boolean TUNING_MODE = false;
 
     public static final double BOTTOM = 0;
     public static final double HATCH_2 = 20000;

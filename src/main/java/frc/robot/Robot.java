@@ -72,9 +72,10 @@ public class Robot extends TimedRobot {
         /* Cameras */
         var cam = CameraServer.getInstance().startAutomaticCapture(0);
         cam.setResolution(360, 240);
+        cam.setFPS(10);
 
         /* MatchTimeServer */
-        MatchTimeServer.startStarting();
+        //MatchTimeServer.startStarting();
     }
 
     private static final byte[] GREEN = {0};
