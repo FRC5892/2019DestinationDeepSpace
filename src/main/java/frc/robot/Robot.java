@@ -51,13 +51,13 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         /* RobotMap */
         try {
-            map = new Gson().fromJson(new FileReader(RobotMap.competition), RobotMap.class);
+            map = new Gson().fromJson(new FileReader(RobotMap.practice), RobotMap.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         /* Subsystems */
-        drive = new DriveSubsystem();
+        drive = new PracticeDriveSubsystem();
         intake = new IntakeSubsystem();
         elevator = new ElevatorSubsystem();
         climb = new ClimbSubsystem();
@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
 
         /* Miscellaneous I/O */
         pressureSensor = new AnalogInput(map.pressureSensor);
-        new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
+        //new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
 
         /* Cameras */
         var cam = CameraServer.getInstance().startAutomaticCapture(0);
@@ -117,13 +117,18 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        intake.setWristSpeed(0);
-        //elevator.setWinchSpeed(0);
+        if (intake != null) {
+            intake.setWristSpeed(0);
+        }
+        if (elevator != null) {
+            elevator.setWinchSpeed(0);
+        }
     }
 
     @Override
     public void autonomousInit() {
         System.out.println(MatchTimeServer.receivableSettings.autonSide);
+        teleopInit();
     }
 
     @Override
