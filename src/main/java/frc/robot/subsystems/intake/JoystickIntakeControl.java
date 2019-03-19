@@ -73,15 +73,15 @@ class JoystickIntakeControl extends Command {
         bottom
     }
 
-    private WristTarget wristTarget = WristTarget.none;
+    //private WristTarget wristTarget = WristTarget.none;
 
     protected void executeWrist() {
         if (Robot.oi.pilot.getRawButton(1)) {
             Robot.intake.setWristSpeed(-MANUAL_WRIST_SPEED);
-            wristTarget = WristTarget.none;
+            //wristTarget = WristTarget.none;
         } else if (Robot.oi.pilot.getRawButton(4)) {
             Robot.intake.setWristSpeed(MANUAL_WRIST_SPEED);
-            wristTarget = WristTarget.none;
+            //wristTarget = WristTarget.none;
         /*} else if (Robot.oi.pilot.getPOV() == 0) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.UP_SETPOINT); // starting position
         } else if (Robot.oi.pilot.getPOV() == 180) {
@@ -90,17 +90,17 @@ class JoystickIntakeControl extends Command {
             Robot.intake.setWristSetpoint(IntakeSubsystem.MID_SETPOINT); // loading station position
         } else if (!Robot.intake.wristIsOnSetpoint()) {
             Robot.intake.setWristSpeed(0);*/
-        } else if (Robot.oi.pilot.getPOV() == 0) {
+        /*} else if (Robot.oi.pilot.getPOV() == 0) {
             wristTarget = WristTarget.top;
         } else if (Robot.oi.pilot.getPOV() == 180) {
-            wristTarget = WristTarget.bottom;
+            wristTarget = WristTarget.bottom;*/
         } else {
-            if (wristTarget == WristTarget.none) {
+            //if (wristTarget == WristTarget.none) {
                 Robot.intake.setWristSpeed(0);
-            }
+            //}
         }
 
-        switch (wristTarget) {
+        /*switch (wristTarget) {
             case none:
               break;
             case top:
@@ -117,7 +117,7 @@ class JoystickIntakeControl extends Command {
                   Robot.intake.setWristSpeed(-MANUAL_WRIST_SPEED);
               }
               break;
-        }
+        }*/
 
         if (Robot.oi.pilot.getRawButton(3)) {
             Robot.intake.resetWristSensor();

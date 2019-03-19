@@ -23,8 +23,8 @@ public class IntakeSubsystem extends Subsystem {
 
     private final SpeedController hatchGrabbers, cargoGrabbers;
     private final DoubleSolenoidGroup pistons;
-    private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
-    private final DigitalInput wristTopLimitSwitch, wristBottomLimitSwitch;
+    /*private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
+    private final DigitalInput wristTopLimitSwitch, wristBottomLimitSwitch;*/
     private final TalonSRX wrist;
 
     public boolean cargoMode = false;
@@ -33,10 +33,10 @@ public class IntakeSubsystem extends Subsystem {
         hatchGrabbers = RobotMap.makeVictorGroup(Robot.map.intakeHatchGrabbers);
         cargoGrabbers = RobotMap.makeVictorGroup(Robot.map.intakeCargoGrabbers);
         pistons = RobotMap.makeDoubleSolenoidGroup(Robot.map.intakePistons);
-        hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
+        /*hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
         cargoLimitSwitch = new DigitalInput(Robot.map.intakeCargoLimitSwitch);
         wristTopLimitSwitch = new DigitalInput(Robot.map.intakeWristTopLimitSwitch);
-        wristBottomLimitSwitch = new DigitalInput(Robot.map.intakeWristBottomLimitSwitch);
+        wristBottomLimitSwitch = new DigitalInput(Robot.map.intakeWristBottomLimitSwitch);*/
         wrist = new TalonSRX(Robot.map.intakeWrist);
         wrist.setSensorPhase(true); // god that method is horribly named.
         try {
@@ -95,11 +95,11 @@ public class IntakeSubsystem extends Subsystem {
     }
 
     public boolean wristIsAtTop() {
-        return wristTopLimitSwitch.get();
+        return false; //wristTopLimitSwitch.get();
     }
 
     public boolean wristIsAtBottom() {
-        return wristBottomLimitSwitch.get();
+        return false; //wristBottomLimitSwitch.get();
     }
 
     public void setPistons(Value value) {
