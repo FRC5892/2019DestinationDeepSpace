@@ -9,7 +9,7 @@ class JoystickDriveCommand extends Command {
         requires(Robot.drive);
     }
 
-    private static final double NORMAL_FACTOR = 0.8;
+    private static final double NORMAL_FACTOR = 0.9;
     private static final double SLOW_FACTOR = 0.5;
     private boolean toggleLastFrame = false;
 

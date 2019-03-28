@@ -5,7 +5,7 @@
     "intakeWrist": 1,
     "intakeHatchGrabbers": [-1],
     "intakeCargoGrabbers": [5],
-    "intakePistons": [[2, 3]],
+    "intakePistons": [[3, 2]],
     "intakeHatchLimitSwitch": 0,
     "intakeCargoLimitSwitch": 1,
     "intakeWristTopLimitSwitch": 4,

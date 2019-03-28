@@ -14,7 +14,7 @@ import java.net.InetSocketAddress;
 
 public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
-    public static final Message.Settings receivableSettings = new Message().new Settings();
+    public static final Message.Settings receivableSettings = new Message.Settings();
 
     private static Notifier starter = new Notifier(() -> {
         new MatchTimeServer().start();
@@ -54,22 +54,41 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
         public double batteryVoltage;
         public int pressureReading;
 
+        public MatchData matchData = MatchData.fromDSReports();
+
         public Infos infos = new Infos();
         public Warnings warnings = new Warnings();
 
         public Settings settings = new Settings();
 
-        public class Infos {
+        public static class MatchData {
+            public String eventName;
+            public int matchType;
+            public int matchNumber;
+            public int replayNumber;
+
+            public static MatchData fromDSReports() {
+                var ds = DriverStation.getInstance();
+                var ret = new MatchData();
+                ret.eventName = ds.getEventName();
+                ret.matchType = ds.getMatchType().ordinal();
+                ret.matchNumber = ds.getMatchNumber();
+                ret.replayNumber = ds.getReplayNumber();
+                return ret;
+            }
+        }
+
+        public static class Infos {
             public boolean slowDrive;
             public boolean hasHatch;
             public boolean hasCargo;
         }
 
-        public class Warnings {
+        public static class Warnings {
             public boolean brownedOut;
         }
 
-        public class Settings {
+        public static class Settings {
             public String autonSide;
         }
     }
@@ -97,7 +116,7 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
         }
     }
 
-    private class IncomingMessage {
+    private static class IncomingMessage {
         String name;
         String data;
     }

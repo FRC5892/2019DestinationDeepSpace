@@ -67,15 +67,16 @@ public class Robot extends TimedRobot {
 
         /* Miscellaneous I/O */
         pressureSensor = new AnalogInput(map.pressureSensor);
-        new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
+        //new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
 
         /* Cameras */
+        @SuppressWarnings("deprecation")
         var cam = CameraServer.getInstance().startAutomaticCapture(0);
         cam.setResolution(360, 240);
         cam.setFPS(10);
 
         /* MatchTimeServer */
-        //MatchTimeServer.startStarting();
+        MatchTimeServer.startStarting();
     }
 
     private static final byte[] GREEN = {0};
@@ -123,7 +124,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        System.out.println(MatchTimeServer.receivableSettings.autonSide);
+        System.out.println(DriverStation.getInstance().getEventName());
     }
 
     @Override
