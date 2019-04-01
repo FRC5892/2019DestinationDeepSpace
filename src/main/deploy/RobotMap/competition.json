@@ -8,8 +8,6 @@
     "intakePistons": [[3, 2]],
     "intakeHatchLimitSwitch": 0,
     "intakeCargoLimitSwitch": 1,
-    "intakeWristTopLimitSwitch": 4,
-    "intakeWristBottomLimitSwitch": 5,
 
     "elevatorWinch": 2,
     "elevatorWinchSupport": [7],

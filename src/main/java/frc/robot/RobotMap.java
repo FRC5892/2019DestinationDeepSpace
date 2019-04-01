@@ -27,12 +27,11 @@ public class RobotMap {
     public int[] intakeCargoGrabbers;
     public int[] elevatorWinchSupport;
     public int[] climbArms;
+    public int cameraServo;
 
     /* DIO */
     public int intakeHatchLimitSwitch; // maybe
     public int intakeCargoLimitSwitch;
-    public int intakeWristTopLimitSwitch;
-    public int intakeWristBottomLimitSwitch;
     public int elevatorTopLimitSwitch;
     public int elevatorBottomLimitSwitch;
 

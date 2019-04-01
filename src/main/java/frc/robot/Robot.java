@@ -7,11 +7,13 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.google.gson.Gson;
 import edu.wpi.first.hal.util.UncleanStatusException;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.MatchTimeServer;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -46,18 +48,24 @@ public class Robot extends TimedRobot {
     public static AnalogInput pressureSensor;
     public static SerialPort serial;
 
+    public static Servo cameraServo;
+
+    public static final boolean PRACTICE_BOT = true;
+    public static final double CAM_FASTMODE = 0.3;
+    public static final double CAM_SLOWMODE = 0.45;
+
     @Override
     @SuppressWarnings("resource")
     public void robotInit() {
         /* RobotMap */
         try {
-            map = new Gson().fromJson(new FileReader(RobotMap.competition), RobotMap.class);
+            map = new Gson().fromJson(new FileReader(PRACTICE_BOT ? RobotMap.practice : RobotMap.competition), RobotMap.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         /* Subsystems */
-        drive = new DriveSubsystem();
+        drive = PRACTICE_BOT ? new PracticeDriveSubsystem() : new DriveSubsystem();
         intake = new IntakeSubsystem();
         elevator = new ElevatorSubsystem();
         climb = new ClimbSubsystem();
@@ -67,13 +75,16 @@ public class Robot extends TimedRobot {
 
         /* Miscellaneous I/O */
         pressureSensor = new AnalogInput(map.pressureSensor);
-        //new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
+        //if (!PRACTICE_BOT) new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
 
         /* Cameras */
         @SuppressWarnings("deprecation")
         var cam = CameraServer.getInstance().startAutomaticCapture(0);
-        cam.setResolution(360, 240);
+        cam.setResolution(320, 240);
         cam.setFPS(10);
+        cameraServo = new Servo(map.cameraServo);
+        cameraServo.setName("Camera Servo");
+        LiveWindow.add(cameraServo);
 
         /* MatchTimeServer */
         MatchTimeServer.startStarting();
@@ -139,6 +150,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        cameraServo.set(drive.manualSlow ? CAM_SLOWMODE : CAM_FASTMODE);
     }
 
     @Override

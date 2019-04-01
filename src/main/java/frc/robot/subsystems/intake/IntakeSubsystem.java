@@ -24,7 +24,6 @@ public class IntakeSubsystem extends Subsystem {
     private final SpeedController hatchGrabbers, cargoGrabbers;
     private final DoubleSolenoidGroup pistons;
     private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
-    private final DigitalInput wristTopLimitSwitch, wristBottomLimitSwitch;
     private final TalonSRX wrist;
 
     public boolean cargoMode = false;
@@ -35,8 +34,6 @@ public class IntakeSubsystem extends Subsystem {
         pistons = RobotMap.makeDoubleSolenoidGroup(Robot.map.intakePistons);
         hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
         cargoLimitSwitch = new DigitalInput(Robot.map.intakeCargoLimitSwitch);
-        wristTopLimitSwitch = new DigitalInput(Robot.map.intakeWristTopLimitSwitch);
-        wristBottomLimitSwitch = new DigitalInput(Robot.map.intakeWristBottomLimitSwitch);
         wrist = new TalonSRX(Robot.map.intakeWrist);
         wrist.setSensorPhase(true); // god that method is horribly named.
         try {
@@ -92,14 +89,6 @@ public class IntakeSubsystem extends Subsystem {
 
     public boolean wristIsOnSetpoint() {
         return wrist.getControlMode() == ControlMode.Position;
-    }
-
-    public boolean wristIsAtTop() {
-        return wristTopLimitSwitch.get();
-    }
-
-    public boolean wristIsAtBottom() {
-        return wristBottomLimitSwitch.get();
     }
 
     public void setPistons(Value value) {
