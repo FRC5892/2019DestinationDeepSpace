@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Robot;
+import frc.robot.subsystems.drive.DriveSubsystem.SpeedMode;
+
 import org.java_websocket.WebSocket;
 import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
@@ -31,9 +33,11 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
             message.batteryVoltage = RobotController.getBatteryVoltage();
             message.pressureReading = Robot.pressureSensor.getValue();
 
-            message.infos.slowDrive = Robot.drive.manualSlow;
-            message.infos.hasHatch = Robot.intake.hasHatch();
-            message.infos.hasCargo = Robot.intake.hasCargo();
+            message.infos.slowDrive = Robot.drive.speedMode == SpeedMode.SLOW;
+            message.infos.killDrive = Robot.drive.speedMode == SpeedMode.KILL;
+            message.infos.slowElevator = Robot.elevator.slowUp;
+            //message.infos.hasHatch = Robot.intake.hasHatch();
+            //message.infos.hasCargo = Robot.intake.hasCargo();
 
             message.warnings.brownedOut = RobotController.isBrownedOut();
 
@@ -80,8 +84,10 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
 
         public static class Infos {
             public boolean slowDrive;
-            public boolean hasHatch;
-            public boolean hasCargo;
+            public boolean killDrive;
+            public boolean slowElevator;
+            //public boolean hasHatch;
+            //public boolean hasCargo;
         }
 
         public static class Warnings {

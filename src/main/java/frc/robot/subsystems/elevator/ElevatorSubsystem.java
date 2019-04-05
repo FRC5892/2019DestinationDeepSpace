@@ -24,6 +24,8 @@ public class ElevatorSubsystem extends Subsystem {
     private final SpeedController winchSupport;
     private final DigitalInput topLimitSwitch, bottomLimitSwitch;
 
+    public boolean slowUp = false;
+
     public ElevatorSubsystem() {
         winch = new TalonSRX(Robot.map.elevatorWinch);
         winch.setSensorPhase(true);

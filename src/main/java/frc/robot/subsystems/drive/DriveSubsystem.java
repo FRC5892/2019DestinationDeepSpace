@@ -13,7 +13,7 @@ public class DriveSubsystem extends Subsystem {
     private final DifferentialDrive drive;
     private final CANEncoder leftEncoder, rightEncoder;
 
-    public boolean manualSlow = false;
+    public SpeedMode speedMode = SpeedMode.NORMAL;
 
     public DriveSubsystem() {
         var left = config(new CANSparkMax(Robot.map.driveLeft[0], MotorType.kBrushless));
@@ -74,5 +74,18 @@ public class DriveSubsystem extends Subsystem {
 
     public void stop() {
         drive.stopMotor();
+    }
+
+    public static enum SpeedMode {
+        NORMAL(0.9, 1),
+        SLOW(0.5, 0.79),
+        KILL(1, 1);
+
+        public final double speedFactor;
+        public final double cameraPosition;
+        SpeedMode(double factor, double cameraPosition) {
+            this.speedFactor = factor;
+            this.cameraPosition = cameraPosition;
+        }
     }
 }

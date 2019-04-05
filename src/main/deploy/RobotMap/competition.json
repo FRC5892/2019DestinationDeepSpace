@@ -5,9 +5,11 @@
     "intakeWrist": 1,
     "intakeHatchGrabbers": [-1],
     "intakeCargoGrabbers": [5],
-    "intakePistons": [[3, 2]],
+    "intakePistons": [[2, 3]],
     "intakeHatchLimitSwitch": 0,
     "intakeCargoLimitSwitch": 1,
+
+    "secondIntakePiston": [],
 
     "elevatorWinch": 2,
     "elevatorWinchSupport": [7],
@@ -17,5 +19,6 @@
     "climbArms": [2, 3],
     "climbPistons": [[4, 5], [6, 7]],
 
-    "pressureSensor": 0
+    "pressureSensor": 0,
+    "cameraServo": 9
 }

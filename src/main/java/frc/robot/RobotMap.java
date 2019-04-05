@@ -40,6 +40,7 @@ public class RobotMap {
 
     /* Solenoids */
     public int[][] intakePistons;
+    public int[][] secondIntakePiston;
     public int[][] climbPistons;
 
     public static SpeedController makeVictorGroup(int[] ports) {

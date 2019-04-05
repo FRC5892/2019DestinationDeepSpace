@@ -18,8 +18,10 @@ import frc.MatchTimeServer;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.PracticeDriveSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem.SpeedMode;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake2.SecondIntakeSubsystem;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -42,6 +44,9 @@ public class Robot extends TimedRobot {
 
     public static DriveSubsystem drive;
     public static IntakeSubsystem intake;
+    // I got told this was a joke after already writing all the code for it.
+    // So screw it, we now have all the necessary code to strap on 1477's hatch mech.
+    public static SecondIntakeSubsystem intake2;
     public static ElevatorSubsystem elevator;
     public static ClimbSubsystem climb;
 
@@ -50,9 +55,7 @@ public class Robot extends TimedRobot {
 
     public static Servo cameraServo;
 
-    public static final boolean PRACTICE_BOT = true;
-    public static final double CAM_FASTMODE = 0.3;
-    public static final double CAM_SLOWMODE = 0.45;
+    public static final boolean PRACTICE_BOT = false;
 
     @Override
     @SuppressWarnings("resource")
@@ -67,6 +70,7 @@ public class Robot extends TimedRobot {
         /* Subsystems */
         drive = PRACTICE_BOT ? new PracticeDriveSubsystem() : new DriveSubsystem();
         intake = new IntakeSubsystem();
+        //intake2 = new SecondIntakeSubsystem();
         elevator = new ElevatorSubsystem();
         climb = new ClimbSubsystem();
 
@@ -150,9 +154,10 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        cameraServo.set(drive.manualSlow ? CAM_SLOWMODE : CAM_FASTMODE);
+        cameraServo.set(drive.speedMode.cameraPosition);
     }
 
+    
     @Override
     public void testInit() {
     }

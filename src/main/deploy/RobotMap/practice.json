@@ -2,9 +2,9 @@
     "driveLeft": [0, 2],
     "driveRight": [7, 8],
 
-    "intakeWrist": 1,
-    "intakeHatchGrabbers": [-3],
-    "intakeCargoGrabbers": [4],
+    "intakeWrist": 3,
+    "intakeHatchGrabbers": [-4],
+    "intakeCargoGrabbers": [6],
     "intakePistons": [[0, 1]],
     "intakeHatchLimitSwitch": 0,
     "intakeCargoLimitSwitch": 1,

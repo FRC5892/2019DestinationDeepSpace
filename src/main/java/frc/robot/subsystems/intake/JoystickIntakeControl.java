@@ -50,7 +50,7 @@ class JoystickIntakeControl extends Command {
     protected void executeHatchMode() {
         Robot.intake.setPistons(Value.kReverse);
 
-        Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(3) - Robot.oi.pilot.getRawAxis(2));
+        Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(3) - Robot.oi.pilot.getRawAxis(2) + Robot.oi.copilot.getRawAxis(5));
         Robot.intake.setCargoGrabbers(0);
 
         executeWrist();

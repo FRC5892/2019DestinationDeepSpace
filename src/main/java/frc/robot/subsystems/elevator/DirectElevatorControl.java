@@ -10,13 +10,24 @@ class DirectElevatorControl extends Command {
     }
 
     private static final double WINCH_SPEED_UP = 1;
+    private static final double WINCH_SPEED_UP_SLOW = 0.5;
+
+    private boolean toggleLastFrame = false;
+
     private static final double WINCH_SPEED_DOWN = 0.4;
 
     @Override
     protected void execute() {
+        if (Robot.oi.copilot.getRawButton(2) && !toggleLastFrame) {
+            Robot.elevator.slowUp = !Robot.elevator.slowUp;
+            toggleLastFrame = true;
+        } else if (!Robot.oi.copilot.getRawButton(2)) {
+            toggleLastFrame = false;
+        }
+
         var input = -Robot.oi.copilot.getRawAxis(1);
         if (input > 0.15) {
-            Robot.elevator.setWinchSpeed(WINCH_SPEED_UP * input);
+            Robot.elevator.setWinchSpeed((Robot.elevator.slowUp ? WINCH_SPEED_UP_SLOW : WINCH_SPEED_UP) * input);
         } else if (input < -0.15) {
             Robot.elevator.setWinchSpeed(WINCH_SPEED_DOWN * input);
         /*} else if (Robot.oi.copilot.getRawButton(1)) {
