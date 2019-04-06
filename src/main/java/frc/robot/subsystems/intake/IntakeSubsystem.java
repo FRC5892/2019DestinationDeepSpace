@@ -50,19 +50,19 @@ public class IntakeSubsystem extends Subsystem {
 
     // I can do the stop on limit logic here because these have to be called every frame re: MotorSafety
     public void setHatchGrabbers(double speed) {
-        if (!hasHatch() && !hasCargo()) {
+        //if (!hasHatch() && !hasCargo()) {
             hatchGrabbers.set(speed);
-        } else {
+        /*} else {
             hatchGrabbers.stopMotor();
-        }
+        }*/
     }
 
     public void setCargoGrabbers(double speed) {
-        if (!hasHatch() && !hasCargo()) {
+        //if (!hasHatch() && !hasCargo()) {
             cargoGrabbers.set(speed);
-        } else {
+        /*} else {
             cargoGrabbers.stopMotor();
-        }
+        }*/
     }
 
     public boolean hasHatch() {
@@ -71,8 +71,8 @@ public class IntakeSubsystem extends Subsystem {
     }
 
     public boolean hasCargo() {
-        //return cargoLimitSwitch.get();
-        return false;
+        return cargoLimitSwitch.get();
+        //return false;
     }
 
     public void setWristSpeed(double speed) {

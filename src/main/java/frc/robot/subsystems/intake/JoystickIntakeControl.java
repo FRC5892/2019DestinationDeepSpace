@@ -56,13 +56,33 @@ class JoystickIntakeControl extends Command {
         executeWrist();
     }
 
-    protected void initializeCargoMode() {}
+    private boolean intakingCargo = false;
+
+    protected void initializeCargoMode() {
+        intakingCargo = false;
+    }
 
     protected void executeCargoMode() {
         Robot.intake.setPistons(Value.kForward);
 
-        Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));
-        Robot.intake.setCargoGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));
+        Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(5));
+        Robot.intake.setCargoGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(5));
+        
+        /*if (Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) > 0.3) {
+            Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));
+            Robot.intake.setCargoGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));
+            intakingCargo = true;
+        } else if (Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) < -0.3) {
+            Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));
+            Robot.intake.setCargoGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));
+            intakingCargo = false;
+        } else if (intakingCargo) {
+            Robot.intake.setHatchGrabbers(Robot.intake.hasCargo() ? 0 : 1);
+            Robot.intake.setCargoGrabbers(Robot.intake.hasCargo() ? 0 : 1);
+        } else {
+            Robot.intake.setHatchGrabbers(0);
+            Robot.intake.setCargoGrabbers(0);
+        }*/
 
         executeWrist();
     }

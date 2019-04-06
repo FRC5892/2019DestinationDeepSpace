@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
         @SuppressWarnings("deprecation")
         var cam = CameraServer.getInstance().startAutomaticCapture(0);
         cam.setResolution(320, 240);
-        cam.setFPS(10);
+        cam.setFPS(13);
         cameraServo = new Servo(map.cameraServo);
         cameraServo.setName("Camera Servo");
         LiveWindow.add(cameraServo);

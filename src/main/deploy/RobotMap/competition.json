@@ -16,7 +16,7 @@
     "elevatorTopLimitSwitch": 2,
     "elevatorBottomLimitSwitch": 3,
 
-    "climbArms": [2, 3],
+    "climbArms": [2, -3],
     "climbPistons": [[4, 5], [6, 7]],
 
     "pressureSensor": 0,

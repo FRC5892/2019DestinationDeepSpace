@@ -37,7 +37,7 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
             message.infos.killDrive = Robot.drive.speedMode == SpeedMode.KILL;
             message.infos.slowElevator = Robot.elevator.slowUp;
             //message.infos.hasHatch = Robot.intake.hasHatch();
-            //message.infos.hasCargo = Robot.intake.hasCargo();
+            message.infos.hasCargo = Robot.intake.hasCargo();
 
             message.warnings.brownedOut = RobotController.isBrownedOut();
 
@@ -87,7 +87,7 @@ public class MatchTimeServer extends WebSocketServer implements AutoCloseable {
             public boolean killDrive;
             public boolean slowElevator;
             //public boolean hasHatch;
-            //public boolean hasCargo;
+            public boolean hasCargo;
         }
 
         public static class Warnings {

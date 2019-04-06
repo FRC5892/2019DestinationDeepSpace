@@ -11,6 +11,11 @@ class JoystickClimbControl extends Command {
     }
 
     @Override
+    protected void initialize() {
+        Robot.climb.setPistons(Value.kReverse);
+    }
+
+    @Override
     protected void execute() {
         Robot.climb.setArms(Robot.oi.copilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(2));
         switch (Robot.oi.copilot.getPOV()) {
