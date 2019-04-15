@@ -23,6 +23,7 @@ import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake2.SecondIntakeSubsystem;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -44,8 +45,6 @@ public class Robot extends TimedRobot {
 
     public static DriveSubsystem drive;
     public static IntakeSubsystem intake;
-    // I got told this was a joke after already writing all the code for it.
-    // So screw it, we now have all the necessary code to strap on 1477's hatch mech.
     public static SecondIntakeSubsystem intake2;
     public static ElevatorSubsystem elevator;
     public static ClimbSubsystem climb;
@@ -55,7 +54,7 @@ public class Robot extends TimedRobot {
 
     public static Servo cameraServo;
 
-    public static final boolean PRACTICE_BOT = false;
+    public static final boolean PRACTICE_BOT = new File("/home/lvuser/practice-bot").exists();
 
     @Override
     @SuppressWarnings("resource")
@@ -70,9 +69,9 @@ public class Robot extends TimedRobot {
         /* Subsystems */
         drive = PRACTICE_BOT ? new PracticeDriveSubsystem() : new DriveSubsystem();
         intake = new IntakeSubsystem();
-        //intake2 = new SecondIntakeSubsystem();
+        intake2 = new SecondIntakeSubsystem();
         elevator = new ElevatorSubsystem();
-        climb = new ClimbSubsystem();
+        //climb = new ClimbSubsystem();
 
         /* OI */
         oi = new OI();

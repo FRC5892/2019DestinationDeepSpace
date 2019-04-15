@@ -16,10 +16,10 @@ import java.io.IOException;
 
 public class IntakeSubsystem extends Subsystem {
 
-    private static final boolean TUNING_MODE = false;
+    private static final boolean TUNING_MODE = true;
     public static final double UP_SETPOINT = 0;
-    public static final double MID_SETPOINT = -265000;
-    public static final double DOWN_SETPOINT = -330000;
+    public static final double MID_SETPOINT = -26500;
+    public static final double DOWN_SETPOINT = -33000;
 
     private final SpeedController hatchGrabbers, cargoGrabbers;
     private final DoubleSolenoidGroup pistons;
@@ -35,7 +35,7 @@ public class IntakeSubsystem extends Subsystem {
         hatchLimitSwitch = new DigitalInput(Robot.map.intakeHatchLimitSwitch);
         cargoLimitSwitch = new DigitalInput(Robot.map.intakeCargoLimitSwitch);
         wrist = new TalonSRX(Robot.map.intakeWrist);
-        wrist.setSensorPhase(true); // god that method is horribly named.
+        wrist.setSensorPhase(false); // god that method is horribly named.
         try {
             TalonUtils.readPID(wrist, "IntakeWrist", TUNING_MODE);
         } catch (IOException e) {
@@ -80,11 +80,11 @@ public class IntakeSubsystem extends Subsystem {
     }
 
     public void setWristSetpoint(double target) {
-        //wrist.set(ControlMode.Position, target);
+        wrist.set(ControlMode.Position, target);
     }
 
     public void resetWristSensor() {
-        //wrist.setSelectedSensorPosition(0);
+        wrist.setSelectedSensorPosition(0);
     }
 
     public boolean wristIsOnSetpoint() {

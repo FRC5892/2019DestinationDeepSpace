@@ -19,7 +19,7 @@ public class PracticeDriveSubsystem extends DriveSubsystem {
 
     @Override
     public void arcadeDrive(double xSpeed, double zRotation) {
-        super.arcadeDrive(xSpeed * 1, zRotation * 1);
+        super.arcadeDrive(xSpeed, zRotation);
     }
 
     @Override

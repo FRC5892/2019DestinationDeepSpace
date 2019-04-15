@@ -1,21 +1,23 @@
 {
-    "driveLeft": [0, 2],
+    "driveLeft": [0, 1],
     "driveRight": [7, 8],
 
-    "intakeWrist": 3,
-    "intakeHatchGrabbers": [-4],
-    "intakeCargoGrabbers": [6],
-    "intakePistons": [[0, 1]],
+    "intakeWrist": 1,
+    "intakeHatchGrabbers": [-3],
+    "intakeCargoGrabbers": [4],
+    "intakePistons": [[4, 5]],
     "intakeHatchLimitSwitch": 0,
     "intakeCargoLimitSwitch": 1,
 
+    "secondIntakePiston": [[3, 2]],
+
     "elevatorWinch": 2,
-    "elevatorWinchSupport": [-1, 12],
+    "elevatorWinchSupport": [-11, -12],
     "elevatorTopLimitSwitch": 2,
     "elevatorBottomLimitSwitch": 3,
 
-    "climbArms": [11, 5],
-    "climbPistons": [[2, 3], [7, 6]],
+    "climbArms": [6, 5],
+    "climbPistons": [[2, 14], [7, 6]],
 
     "pressureSensor": 0,
     "cameraServo": 9
