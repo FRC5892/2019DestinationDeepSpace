@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.google.gson.Gson;
 import edu.wpi.first.hal.util.UncleanStatusException;
 import edu.wpi.first.wpilibj.*;
@@ -18,7 +17,6 @@ import frc.MatchTimeServer;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.PracticeDriveSubsystem;
-import frc.robot.subsystems.drive.DriveSubsystem.SpeedMode;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake2.SecondIntakeSubsystem;
@@ -150,12 +148,12 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
     }
 
-    private static SpeedController compressor = new VictorSP(6);
+    //private static SpeedController compressor = new VictorSP(6);
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         cameraServo.set(drive.speedMode.cameraPosition);
-        compressor.set(oi.copilot.getRawAxis(3));
+        //compressor.set(oi.copilot.getRawAxis(3));
     }
 
     

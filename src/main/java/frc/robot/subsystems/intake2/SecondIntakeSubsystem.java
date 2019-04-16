@@ -1,6 +1,5 @@
 package frc.robot.subsystems.intake2;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.DoubleSolenoidGroup;

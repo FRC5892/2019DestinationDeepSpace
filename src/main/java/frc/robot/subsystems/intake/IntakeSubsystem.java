@@ -23,6 +23,7 @@ public class IntakeSubsystem extends Subsystem {
 
     private final SpeedController hatchGrabbers, cargoGrabbers;
     private final DoubleSolenoidGroup pistons;
+    @SuppressWarnings("unused")
     private final DigitalInput hatchLimitSwitch, cargoLimitSwitch;
     private final TalonSRX wrist;
 

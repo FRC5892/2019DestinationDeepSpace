@@ -99,7 +99,7 @@ public class AlignWithVisionTargets extends Command {
 
         VisionMoveController() {
             super(DEBUG_MODE);
-            setSetpoint(34000); // FIXME THE CAMERA IS SIDEWAYS IT WILL PROBABLY BE DIFFERENT
+            setSetpoint(34000);
             setOutputLimits(0.75);
         }
 
@@ -128,7 +128,7 @@ public class AlignWithVisionTargets extends Command {
 
         VisionTurnController() {
             super(DEBUG_MODE);
-            setSetpoint(120); // FIXME THE CAMERA IS SIDEWAYS IT SHOULD BE 160
+            setSetpoint(120);
             setOutputLimits(0.75);
         }
 
@@ -141,7 +141,7 @@ public class AlignWithVisionTargets extends Command {
             }
         }
 
-        private static final double ERROR_TURN = 0.5;
+        //private static final double ERROR_TURN = 0.5;
 
         @Override
         public void usePIDOutput(double output) {

@@ -56,6 +56,7 @@ class JoystickIntakeControl extends Command {
         executeWrist();
     }
 
+    @SuppressWarnings("unused")
     private boolean intakingCargo = false;
 
     protected void initializeCargoMode() {
@@ -74,7 +75,7 @@ class JoystickIntakeControl extends Command {
             setAllGrabbers(-1);
         } else {
             setAllGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(5));
-        }
+        }//*/
         
         /*if (Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) > 0.3) {
             Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));
@@ -90,7 +91,7 @@ class JoystickIntakeControl extends Command {
         } else {
             Robot.intake.setHatchGrabbers(0);
             Robot.intake.setCargoGrabbers(0);
-        }*/
+        }//*/
 
         executeWrist();
     }
