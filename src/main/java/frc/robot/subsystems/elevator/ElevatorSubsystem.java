@@ -47,12 +47,12 @@ public class ElevatorSubsystem extends Subsystem {
     }
 
     public void setWinchSpeed(double speed) {
-        /*if (speed > 0 && topLimitSwitchTriggered()) {
+        if (speed > 0 && topLimitSwitchTriggered()) {
             winch.set(ControlMode.PercentOutput, 0);
             return;
         }
-        winch.set(ControlMode.PercentOutput, speed);*/
-        winchSupport.set(speed);
+        winch.set(ControlMode.PercentOutput, speed); //*/
+        //winchSupport.set(speed);
     }
 
     public void setWinchSetpoint(double target) {
@@ -82,6 +82,6 @@ public class ElevatorSubsystem extends Subsystem {
         // i guess i could ask them to transplant one of the Victor SPXs from the practice bot
         // but like
         // this works
-        //winchSupport.set(winch.getMotorOutputPercent());
+        winchSupport.set(winch.getMotorOutputPercent());
     }
 }
