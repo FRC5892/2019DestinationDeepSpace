@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 
  * @author Kai Page
  */
+@Deprecated // in favor of BuildableCommandGroup
 public class CommandGroupBuilder {
     private CommandGroup output = new CommandGroup();
 
