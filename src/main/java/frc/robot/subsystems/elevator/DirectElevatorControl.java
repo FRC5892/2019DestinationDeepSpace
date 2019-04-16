@@ -30,7 +30,7 @@ class DirectElevatorControl extends Command {
             Robot.elevator.setWinchSpeed((Robot.elevator.slowUp ? WINCH_SPEED_UP_SLOW : WINCH_SPEED_UP) * input);
         } else if (input < -0.15) {
             Robot.elevator.setWinchSpeed(WINCH_SPEED_DOWN * input);
-        /*} else if (Robot.oi.copilot.getRawButton(1)) {
+        /*} else if (Robot.oi.copilot.getRawButton(1)) { // NOTE: the A button is now being used as a cargo full-outtake
             Robot.elevator.setWinchSetpoint(ElevatorSubsystem.BOTTOM); // starting position
         } else if (Robot.oi.copilot.getRawButton(2)) {
             Robot.elevator.setWinchSetpoint(ElevatorSubsystem.HATCH_2); // "acquisition position"

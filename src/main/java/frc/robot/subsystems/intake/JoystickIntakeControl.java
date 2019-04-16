@@ -62,11 +62,19 @@ class JoystickIntakeControl extends Command {
         intakingCargo = false;
     }
 
+    private static void setAllGrabbers(double speed) {
+        Robot.intake.setHatchGrabbers(speed);
+        Robot.intake.setCargoGrabbers(speed);
+    }
+
     protected void executeCargoMode() {
         Robot.intake.setPistons(Value.kForward);
 
-        Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(5));
-        Robot.intake.setCargoGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(5));
+        if (Robot.oi.copilot.getRawButton(1)) {
+            setAllGrabbers(-1);
+        } else {
+            setAllGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(5));
+        }
         
         /*if (Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) > 0.3) {
             Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3));

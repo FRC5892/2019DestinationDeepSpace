@@ -138,7 +138,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        System.out.println(DriverStation.getInstance().getEventName());
+        teleopInit();
     }
 
     @Override
@@ -150,10 +150,12 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
     }
 
+    private static SpeedController compressor = new VictorSP(6);
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         cameraServo.set(drive.speedMode.cameraPosition);
+        compressor.set(oi.copilot.getRawAxis(3));
     }
 
     

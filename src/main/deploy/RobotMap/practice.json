@@ -9,7 +9,7 @@
     "intakeHatchLimitSwitch": 0,
     "intakeCargoLimitSwitch": 1,
 
-    "secondIntakePiston": [[3, 2]],
+    "secondIntakePiston": [[2, 3]],
 
     "elevatorWinch": 2,
     "elevatorWinchSupport": [-11, -12],
