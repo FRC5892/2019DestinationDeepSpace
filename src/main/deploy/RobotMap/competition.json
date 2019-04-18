@@ -5,11 +5,11 @@
     "intakeWrist": 1,
     "intakeHatchGrabbers": [-1],
     "intakeCargoGrabbers": [5],
-    "intakePistons": [[2, 3]],
+    "intakePistons": [[3, 2]],
     "intakeHatchLimitSwitch": 0,
     "intakeCargoLimitSwitch": 1,
 
-    "secondIntakePiston": [],
+    "secondIntakePiston": [[1, 0]],
 
     "elevatorWinch": 2,
     "elevatorWinchSupport": [7],
