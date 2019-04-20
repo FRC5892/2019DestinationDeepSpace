@@ -8,6 +8,8 @@
 package frc.robot;
 
 import com.google.gson.Gson;
+
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.hal.util.UncleanStatusException;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.SerialPort.Port;
@@ -50,6 +52,7 @@ public class Robot extends TimedRobot {
     public static AnalogInput pressureSensor;
     public static SerialPort serial;
 
+    public static UsbCamera cam;
     public static Servo cameraServo;
 
     public static final boolean PRACTICE_BOT = new File("/home/lvuser/practice-bot").exists();
@@ -79,10 +82,9 @@ public class Robot extends TimedRobot {
         //if (!PRACTICE_BOT) new Notifier(Robot::arduinoCommLoop).startPeriodic(1.0 / 20);
 
         /* Cameras */
-        @SuppressWarnings("deprecation")
-        var cam = CameraServer.getInstance().startAutomaticCapture(0);
+        cam = CameraServer.getInstance().startAutomaticCapture(0);
         cam.setResolution(320, 240);
-        cam.setFPS(13);
+        cam.setFPS(15);
         cameraServo = new Servo(map.cameraServo);
         cameraServo.setName("Camera Servo");
         LiveWindow.add(cameraServo);
@@ -136,7 +138,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        teleopInit();
+        cam.setFPS(15);
     }
 
     @Override
@@ -146,6 +148,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        cam.setFPS(10);
     }
 
     //private static SpeedController compressor = new VictorSP(6);

@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+import static frc.MathUtils.*;
+
 class JoystickIntakeControl extends Command {
 
     JoystickIntakeControl() {
@@ -50,7 +52,7 @@ class JoystickIntakeControl extends Command {
     protected void executeHatchMode() {
         Robot.intake.setPistons(Value.kReverse);
 
-        Robot.intake.setHatchGrabbers(Robot.oi.pilot.getRawAxis(3) - Robot.oi.pilot.getRawAxis(2) + Robot.oi.copilot.getRawAxis(5));
+        Robot.intake.setHatchGrabbers(deadZone(Robot.oi.pilot.getRawAxis(3) - Robot.oi.pilot.getRawAxis(2) + Robot.oi.copilot.getRawAxis(5), 0.2));
         Robot.intake.setCargoGrabbers(0);
 
         executeWrist();
@@ -74,7 +76,7 @@ class JoystickIntakeControl extends Command {
         if (Robot.oi.copilot.getRawButton(1)) {
             setAllGrabbers(-1);
         } else {
-            setAllGrabbers(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(5));
+            setAllGrabbers(deadZone(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(5), 0.2));
         }//*/
         
         /*if (Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) > 0.3) {
