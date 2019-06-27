@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
     public static final boolean PRACTICE_BOT = new File("/home/lvuser/practice-bot").exists();
 
     @Override
-    @SuppressWarnings("resource")
+    @SuppressWarnings("deprecation")
     public void robotInit() {
         /* RobotMap */
         try {
@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
         intake = new IntakeSubsystem();
         intake2 = new SecondIntakeSubsystem();
         elevator = new ElevatorSubsystem();
-        climb = new ClimbSubsystem();
+        if (!PRACTICE_BOT) climb = new ClimbSubsystem();
 
         /* OI */
         oi = new OI();

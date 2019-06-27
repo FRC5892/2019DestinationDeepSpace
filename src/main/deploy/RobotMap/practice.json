@@ -1,6 +1,6 @@
 {
     "driveLeft": [0, 1],
-    "driveRight": [7, 8],
+    "driveRight": [5, 8],
 
     "intakeWrist": 1,
     "intakeHatchGrabbers": [-3],
@@ -16,7 +16,7 @@
     "elevatorTopLimitSwitch": 2,
     "elevatorBottomLimitSwitch": 3,
 
-    "climbArms": [6, 5],
+    "climbArms": [6, 7],
     "climbPistons": [[2, 14], [7, 6]],
 
     "pressureSensor": 0,

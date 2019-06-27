@@ -8,6 +8,8 @@ import static frc.MathUtils.*;
 
 class JoystickIntakeControl extends Command {
 
+    private static final boolean REVERSE_CODRIVER_INTAKE = true;
+
     JoystickIntakeControl() {
         requires(Robot.intake);
     }
@@ -76,7 +78,7 @@ class JoystickIntakeControl extends Command {
         if (Robot.oi.copilot.getRawButton(1)) {
             setAllGrabbers(-1);
         } else {
-            setAllGrabbers(deadZone(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) - Robot.oi.copilot.getRawAxis(5), 0.2));
+            setAllGrabbers(deadZone(Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) + Robot.oi.copilot.getRawAxis(5) * (REVERSE_CODRIVER_INTAKE ? 1 : -1), 0.2));
         }//*/
         
         /*if (Robot.oi.pilot.getRawAxis(2) - Robot.oi.pilot.getRawAxis(3) > 0.3) {
@@ -103,13 +105,13 @@ class JoystickIntakeControl extends Command {
             Robot.intake.setWristSpeed(-MANUAL_WRIST_SPEED);
         } else if (Robot.oi.pilot.getRawButton(4)) {
             Robot.intake.setWristSpeed(MANUAL_WRIST_SPEED);
-        } else if (Robot.oi.pilot.getPOV() == 0) {
+        /*} else if (Robot.oi.pilot.getPOV() == 0) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.UP_SETPOINT); // starting position
         } else if (Robot.oi.pilot.getPOV() == 180) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.DOWN_SETPOINT); // "acquisition position"
         } else if (Robot.oi.pilot.getPOV() == 270) {
             Robot.intake.setWristSetpoint(IntakeSubsystem.MID_SETPOINT); // loading station position
-        } else if (!Robot.intake.wristIsOnSetpoint()) {
+        */} else if (!Robot.intake.wristIsOnSetpoint()) {
             Robot.intake.setWristSpeed(0);
         }
 
