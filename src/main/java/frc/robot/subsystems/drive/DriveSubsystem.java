@@ -4,6 +4,8 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Robot;
@@ -18,17 +20,25 @@ public class DriveSubsystem extends Subsystem {
     public DriveSubsystem() {
         var left = config(new CANSparkMax(Robot.map.driveLeft[0], MotorType.kBrushless));
         var right = config(new CANSparkMax(Robot.map.driveRight[0], MotorType.kBrushless));
-        drive = new DifferentialDrive(left, right);
+        drive = new DifferentialDrive(new SpeedControllerGroup(
+            left,
+            config(new CANSparkMax(Robot.map.driveLeft[1], MotorType.kBrushless)),
+            config(new CANSparkMax(Robot.map.driveLeft[2], MotorType.kBrushless))
+        ), new SpeedControllerGroup(
+            right,
+            config(new CANSparkMax(Robot.map.driveRight[1], MotorType.kBrushless)),
+            config(new CANSparkMax(Robot.map.driveRight[2], MotorType.kBrushless))
+        ));
         leftEncoder = left.getEncoder();
         rightEncoder = right.getEncoder();
 
-        for (var i = 1; i < Robot.map.driveLeft.length; i++) {
+        /*for (var i = 1; i < Robot.map.driveLeft.length; i++) {
             config(new CANSparkMax(Robot.map.driveLeft[i], MotorType.kBrushless)).follow(left);
         }
 
         for (var i = 1; i < Robot.map.driveRight.length; i++) {
             config(new CANSparkMax(Robot.map.driveRight[i], MotorType.kBrushless)).follow(right);
-        }
+        }*/
     }
 
     DriveSubsystem(DifferentialDrive drive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
@@ -77,7 +87,7 @@ public class DriveSubsystem extends Subsystem {
     }
 
     public static enum SpeedMode {
-        NORMAL(0.9, 1),
+        NORMAL(0.8, 1),
         SLOW(0.5, 0.79),
         KILL(1, 1);
 
